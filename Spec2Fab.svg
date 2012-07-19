@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="11cm" height="10cm" viewBox="173 59 220 182" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="235" y="61" width="110.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="61" width="110.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="290.05" y="80">Objective</text>
+    <rect style="fill: #ffffff" x="235" y="89" width="110.1" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="89" width="110.1" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="238" y="103">+scene: Scene</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="238" y="119">+goal: Goal</text>
+    <rect style="fill: #ffffff" x="235" y="125" width="110.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="125" width="110.1" height="8"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="174" y="197" width="64.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="174" y="197" width="64.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="206.05" y="216">Scene</text>
+    <rect style="fill: #ffffff" x="174" y="225" width="64.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="174" y="225" width="64.1" height="8"/>
+    <rect style="fill: #ffffff" x="174" y="233" width="64.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="174" y="233" width="64.1" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="290.05,133 290.05,161 206.05,161 206.05,190.295 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="201.05,177.647 206.05,193.647 211.05,177.647 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="341" y="195" width="50.45" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="341" y="195" width="50.45" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="366.225" y="214">Goal</text>
+    <rect style="fill: #ffffff" x="341" y="223" width="50.45" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="341" y="223" width="50.45" height="8"/>
+    <rect style="fill: #ffffff" x="341" y="231" width="50.45" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="341" y="231" width="50.45" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="290.05,133 290.05,160 366.225,160 366.225,188.295 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="361.225,175.647 366.225,191.647 371.225,175.647 "/>
+  </g>
+</svg>
