@@ -1,182 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="69cm" height="31cm" viewBox="-251 37 1367 620" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="54cm" height="29cm" viewBox="-19 59 1061 563" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="89.4383" y="236.211" width="920.386" height="384.948"/>
   <g>
-    <rect style="fill: #ffffff" x="235" y="61" width="117.8" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="61" width="117.8" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="293.9" y="80">Objective</text>
-    <rect style="fill: #ffffff" x="235" y="89" width="117.8" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="89" width="117.8" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="238" y="103">+scene: Scene</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="238" y="119">+goal: Goal</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="238" y="135">+weight: Float</text>
-    <rect style="fill: #ffffff" x="235" y="141" width="117.8" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="235" y="141" width="117.8" height="8"/>
+    <rect style="fill: #ffffff" x="395.581" y="60.1778" width="310.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395.581" y="60.1778" width="310.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="550.731" y="79.1778">Manager</text>
+    <rect style="fill: #ffffff" x="395.581" y="88.1778" width="310.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395.581" y="88.1778" width="310.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="398.581" y="102.178">+errorFunction: ErrorFunction</text>
+    <rect style="fill: #ffffff" x="395.581" y="108.178" width="310.3" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395.581" y="108.178" width="310.3" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="398.581" y="122.178">+loadMaterialLib(filename:const char *)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="398.581" y="138.178">+addObjective(obj :Objective *): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="398.581" y="154.178">+run(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="398.581" y="170.178">+getOutput(): Output</text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="293.9,149 293.9,219.875 172.404,219.875 172.404,292.045 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="167.404,279.397 172.404,295.397 177.404,279.397 "/>
+    <rect style="fill: #ffffff" x="145.564" y="275.65" width="279.5" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="145.564" y="275.65" width="279.5" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="285.314" y="294.65">Generator</text>
+    <rect style="fill: #ffffff" x="145.564" y="303.65" width="279.5" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="145.564" y="303.65" width="279.5" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="148.564" y="317.65">+matlib: const MaterialLibrary*</text>
+    <rect style="fill: #ffffff" x="145.564" y="323.65" width="279.5" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="145.564" y="323.65" width="279.5" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="148.564" y="337.65">+setShape(shapeInput:Shape*)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="148.564" y="353.65">+setState(stateInput:const State </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="148.564" y="369.65">+getShape(): const Shape </text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="495" y="199" width="102.4" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="495" y="199" width="102.4" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="546.2" y="218">Goal</text>
-    <rect style="fill: #ffffff" x="495" y="227" width="102.4" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="495" y="227" width="102.4" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="498" y="241">+TypeID: int</text>
-    <rect style="fill: #ffffff" x="495" y="247" width="102.4" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="495" y="247" width="102.4" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="550.731,176.178 550.731,202.194 549.631,202.194 549.631,229.506 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="544.631,216.858 549.631,232.858 554.631,216.858 "/>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="293.9,149 293.9,170 546.2,170 546.2,192.295 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="541.2,179.647 546.2,195.647 551.2,179.647 "/>
+    <rect style="fill: #ffffff" x="-17.7869" y="60.6001" width="325.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-17.7869" y="60.6001" width="325.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="145.063" y="79.6001">MaterialLibrary</text>
+    <rect style="fill: #ffffff" x="-17.7869" y="88.6001" width="325.7" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-17.7869" y="88.6001" width="325.7" height="8"/>
+    <rect style="fill: #ffffff" x="-17.7869" y="96.6001" width="325.7" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-17.7869" y="96.6001" width="325.7" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-14.7869" y="110.6">+MaterialLibrary(const char * filename)()</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="393" y="310" width="106.45" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="393" y="310" width="106.45" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="446.225" y="329">ShapeGoal</text>
-    <rect style="fill: #ffffff" x="393" y="338" width="106.45" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="393" y="338" width="106.45" height="8"/>
-    <rect style="fill: #ffffff" x="393" y="346" width="106.45" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="393" y="346" width="106.45" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="395.581,118.178 349.85,118.178 349.85,106.6 314.618,106.6 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="327.266,101.6 311.266,106.6 327.266,111.6 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="639" y="311" width="106.15" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="639" y="311" width="106.15" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="692.075" y="330">ImageGoal</text>
-    <rect style="fill: #ffffff" x="639" y="339" width="106.15" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="639" y="339" width="106.15" height="8"/>
-    <rect style="fill: #ffffff" x="639" y="347" width="106.15" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="639" y="347" width="106.15" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="145.564,275.65 145.564,200.125 145.063,200.125 145.063,123.305 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="150.063,135.953 145.063,119.953 140.063,135.953 "/>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="446.225,291.764 446.225,274.5 546.2,274.5 546.2,255 "/>
-    <polygon style="fill: #ffffff" points="438.225,291.764 446.225,307.764 454.225,291.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="438.225,291.764 446.225,307.764 454.225,291.764 "/>
+    <rect style="fill: #ffffff" x="103.521" y="468.096" width="364.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="103.521" y="468.096" width="364.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="285.621" y="487.096">Optimizer</text>
+    <rect style="fill: #ffffff" x="103.521" y="496.096" width="364.2" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="103.521" y="496.096" width="364.2" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="106.521" y="510.096">+errorFunction: const ErrorFunction *</text>
+    <rect style="fill: #ffffff" x="103.521" y="516.096" width="364.2" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="103.521" y="516.096" width="364.2" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="106.521" y="530.096">+getState(): State *</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="106.521" y="546.096">+run(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="106.521" y="562.096">+setState(stateInput:State*): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="106.521" y="578.096">+setErrorFunction(errFun:const ErrorFunction*)</text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="692.075,292.764 692.075,275 546.2,275 546.2,255 "/>
-    <polygon style="fill: #ffffff" points="684.075,292.764 692.075,308.764 700.075,292.764 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="684.075,292.764 692.075,308.764 700.075,292.764 "/>
+    <rect style="fill: #ffffff" x="651.865" y="285.21" width="271.8" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="651.865" y="285.21" width="271.8" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="787.765" y="304.21">Simulator</text>
+    <rect style="fill: #ffffff" x="651.865" y="313.21" width="271.8" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="651.865" y="313.21" width="271.8" height="8"/>
+    <rect style="fill: #ffffff" x="651.865" y="321.21" width="271.8" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="651.865" y="321.21" width="271.8" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="654.865" y="335.21">+setScene(sceneInput:const scene</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="654.865" y="351.21">+setShape(const Shape</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="654.865" y="367.21">+simulate(): Goal *</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="774" y="310" width="131.35" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="774" y="310" width="131.35" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="839.675" y="329">RealNumGoal</text>
-    <rect style="fill: #ffffff" x="774" y="338" width="131.35" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="774" y="338" width="131.35" height="8"/>
-    <rect style="fill: #ffffff" x="774" y="346" width="131.35" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="774" y="346" width="131.35" height="8"/>
+    <rect style="fill: #ffffff" x="694.394" y="499.986" width="325.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="694.394" y="499.986" width="325.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="857.244" y="518.986">Metric</text>
+    <rect style="fill: #ffffff" x="694.394" y="527.986" width="325.7" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="694.394" y="527.986" width="325.7" height="8"/>
+    <rect style="fill: #ffffff" x="694.394" y="535.986" width="325.7" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="694.394" y="535.986" width="325.7" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="697.394" y="549.986">+setGoal(const Goal </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="697.394" y="565.986">+getError(const Goal </text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="839.675,290.758 839.675,273.997 546.2,273.997 546.2,255 "/>
-    <polygon style="fill: #ffffff" points="831.675,290.758 839.675,306.758 847.675,290.758 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="831.675,290.758 839.675,306.758 847.675,290.758 "/>
+    <rect style="fill: #ffffff" x="784.116" y="138.036" width="256.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="784.116" y="138.036" width="256.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="912.316" y="157.036">ErrorFunction</text>
+    <rect style="fill: #ffffff" x="784.116" y="166.036" width="256.4" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="784.116" y="166.036" width="256.4" height="8"/>
+    <rect style="fill: #ffffff" x="784.116" y="174.036" width="256.4" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="784.116" y="174.036" width="256.4" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="787.116" y="188.036">+getError(const State </text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="697.002" y="38.75" width="418.1" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="697.002" y="38.75" width="418.1" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="906.052" y="57.75">MetricFactory</text>
-    <rect style="fill: #ffffff" x="697.002" y="66.75" width="418.1" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="697.002" y="66.75" width="418.1" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="700.002" y="80.75">+goalMetricTable: map&lt;GoalTypeID, set&lt;MetricTypeID&gt; &gt;</text>
-    <line style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" x1="700.002" y1="86.35" x2="1108.1" y2="86.35"/>
-    <rect style="fill: #ffffff" x="697.002" y="86.75" width="418.1" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="697.002" y="86.75" width="418.1" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="700.002" y="100.75">+getMetric(goal:const Goal </text>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="705.881,118.178 726.881,118.178 726.881,107.532 912.316,107.532 912.316,131.33 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="907.316,118.683 912.316,134.683 917.316,118.683 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="21.104" y="298.75" width="302.6" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="21.104" y="298.75" width="302.6" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="172.404" y="317.75">Scene</text>
-    <rect style="fill: #ffffff" x="21.104" y="326.75" width="302.6" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="21.104" y="326.75" width="302.6" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="24.104" y="340.75">+shapes: Lis&lt;Shap&gt;</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="24.104" y="356.75">+forces: List&lt;Force&gt;</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="24.104" y="372.75">+physConstraints: List&lt;PhysConstraint&gt;</text>
-    <rect style="fill: #ffffff" x="21.104" y="378.75" width="302.6" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="21.104" y="378.75" width="302.6" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="467.721,584.096 580.165,584.096 580.165,194.036 777.411,194.036 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="764.764,199.036 780.764,194.036 764.764,189.036 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="58.104" y="498.75" width="487.4" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="58.104" y="498.75" width="487.4" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="301.804" y="517.75">Shape</text>
-    <rect style="fill: #ffffff" x="58.104" y="526.75" width="487.4" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="58.104" y="526.75" width="487.4" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="61.104" y="540.75">+mesh: Mesh</text>
-    <rect style="fill: #ffffff" x="58.104" y="546.75" width="487.4" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="58.104" y="546.75" width="487.4" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="61.104" y="560.75">+getMaterialProperty(position:const Vec3 </text>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="285.314,375.65 285.314,417.235 285.621,417.235 285.621,468.096 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="285.468" y="414.235">Translate between abstract search space and concrete shape</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="-119.896" y="496.75" width="125.5" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-119.896" y="496.75" width="125.5" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-57.146" y="515.75">Force</text>
-    <rect style="fill: #ffffff" x="-119.896" y="524.75" width="125.5" height="68"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-119.896" y="524.75" width="125.5" height="68"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-116.896" y="538.75">+shape: Shape*</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-116.896" y="554.75">+f: Vec3</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-116.896" y="570.75">+position: Vec3</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-116.896" y="586.75">+type: TypeID</text>
-    <rect style="fill: #ffffff" x="-119.896" y="592.75" width="125.5" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-119.896" y="592.75" width="125.5" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="425.064,333.65 538.464,333.65 538.464,331.21 651.865,331.21 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="540.464" y="329.43">Concrete Shape</text>
+    <polygon style="fill: #000000" points="650.264,329.43 650.264,321.43 658.264,325.43 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="915.104" y="496.75" width="164" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="915.104" y="496.75" width="164" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="997.104" y="515.75">PhysConstraint</text>
-    <rect style="fill: #ffffff" x="915.104" y="524.75" width="164" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="915.104" y="524.75" width="164" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="918.104" y="538.75">+shape: Shape *</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="918.104" y="554.75">+vertices: List&lt;int&gt;</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="918.104" y="570.75">+type: typeID</text>
-    <rect style="fill: #ffffff" x="915.104" y="576.75" width="164" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="915.104" y="576.75" width="164" height="8"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="787.765,373.21 787.765,436.598 857.244,436.598 857.244,499.986 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="822.505" y="433.598">Simulated result</text>
+    <polygon style="fill: #000000" points="886.105,433.598 886.105,425.598 894.105,429.598 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="-249.896" y="494.75" width="110.1" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-249.896" y="494.75" width="110.1" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-194.846" y="513.75">Camera</text>
-    <rect style="fill: #ffffff" x="-249.896" y="522.75" width="110.1" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-249.896" y="522.75" width="110.1" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-246.896" y="536.75">+eye: Vec3</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-246.896" y="552.75">+lookAt: Vec3</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-246.896" y="568.75">+up: Vec3</text>
-    <rect style="fill: #ffffff" x="-249.896" y="574.75" width="110.1" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-249.896" y="574.75" width="110.1" height="8"/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="172.404,386.75 172.404,438.75 301.804,438.75 301.804,492.045 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="296.804,479.397 301.804,495.397 306.804,479.397 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="172.404,386.75 172.404,437.75 -57.146,437.75 -57.146,490.045 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-62.146,477.397 -57.146,493.397 -52.146,477.397 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="172.404,386.75 172.404,437.75 997.104,437.75 997.104,490.045 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="992.104,477.397 997.104,493.397 1002.1,477.397 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="172.404,386.75 172.404,436.75 -194.846,436.75 -194.846,488.045 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-199.846,475.397 -194.846,491.397 -189.846,475.397 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="997.104,584.75 997.104,605.75 301.804,605.75 301.804,573.455 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="306.804,586.103 301.804,570.103 296.804,586.103 "/>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="-57.146,600.75 -57.146,625.5 301.804,625.5 301.804,573.455 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="306.804,586.103 301.804,570.103 296.804,586.103 "/>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="700.104" y="124.5" width="364.2" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700.104" y="124.5" width="364.2" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="882.204" y="143.5">SimulatorFactory</text>
-    <rect style="fill: #ffffff" x="700.104" y="152.5" width="364.2" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700.104" y="152.5" width="364.2" height="8"/>
-    <rect style="fill: #ffffff" x="700.104" y="160.5" width="364.2" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700.104" y="160.5" width="364.2" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703.104" y="174.5">+getSimulator(scene:const Scene </text>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="694.394,545.986 581.058,545.986 581.058,542.096 467.721,542.096 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="583.058" y="541.041">Error Measure</text>
+    <polygon style="fill: #000000" points="579.058,541.041 579.058,533.041 571.058,537.041 "/>
   </g>
 </svg>
