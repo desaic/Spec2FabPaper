@@ -19,6 +19,9 @@
 \TOGdataURL{}
 \TOGcodeURL{}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \title{Goes Here}
 
 \author{}
@@ -28,10 +31,38 @@
 
 \begin{document}
 
-%% \teaser{
-%%   \includegraphics[height=1.5in]{images/sampleteaser}
-%%   \caption{Spring Training 2009, Peoria, AZ.}
-%% }
+ \teaser{
+   \begin{subfigure}[b]{0.3\textwidth}
+	\centering
+%    	\includegraphics[width=\textwidth]{a}
+      	\caption{}
+        \label{teaser:original}
+        \end{subfigure}
+        ~ 
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+%    	\includegraphics[width=\textwidth]{a}
+                \caption{}
+                \label{teaser:ours}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+%    	\includegraphics[width=\textwidth]{a}
+                \caption{}
+                \label{teaser:makerbot}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+%    	\includegraphics[width=\textwidth]{a}
+                \caption{}
+                \label{teaser:objet}
+        \end{subfigure}
+        \caption{A textured mesh printed with different types of 3D printers.
+        	(a)original model.(b)printed with our printer.(c)makerbot.
+        	(d)objet}\label{teaser}
+ }
 
 \maketitle
 
