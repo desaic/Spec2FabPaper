@@ -47,9 +47,56 @@
 \copyrightspace
 
 \section{Introduction}
+3D printing has the potential to dramatically reduce the required time and cost of
+fabricating custom materials and objects. In particular, it allows the fabrication of materials with complex internal
+structures that are difficult or impossible to manufacture with other technologies. Additive manufacturing could be
+much more widely adopted and easier to use, given a high-fidelity translation from specifications of objects defined
+in terms of their mechanical, optical, and appearance properties to output-device-specific computer
+programs that produce the best possible approximation of these digital objects. However, this is still one of
+the most important unsolved problems in digital direct manufacturing. Due to its combinatorial nature, this
+problem becomes more and more challenging as the range of different printable materials increases. This paper
+aims to provide an abstraction mechanism and a software framework for translating specifications to fabrication
+instructions. It is possible to design a computationally efficient and general process for translating virtual objects
+with desired mechanical, electrical, optical, and appearance properties into composite printable materials.
+We will achieve this goal through a reduction-optimization-simulation approach.
+\section{Previous Work}
+
 \section{System Description}
+The software framework (shown in Figure~\ref{fig:framework}) is composed of 
+a set of software
+modules that can be easily modified or exchanged. The first component
+of this framework is an output-device-independent description API
+that allows the user to specify any physical object in terms of its physical
+properties such as geometry, mechanical behaviors, and appearance. 
+The framework will also provide physically-based
+simulation tools that accurately predict the behavior of our output device.
+The goal of the optimization module is to search through
+the space of possible device outputs and deliver one that best matches the
+desired model. In order to evaluate the quality of the match between the
+simulation output and the desired model we need to develop appropriate
+comparison metrics. Finally, a central component of our framework is
+a reduction model which makes the optimization problem tractable by
+reducing the search space as much as possible.
+The reduction model can specified by experts or deduced from a
+set of examples. Next, we will describe each element of the framework in
+more detail.
+\begin{figure}
+\caption{API overview}
+\label{fig:framework}
+\end{figure}
 \subsection{Input API}
-Specification of an optimization problem using our API.
+Our input API allows a designer to either
+define material properties for sections of an object
+or specify behavior of an object. 
+The designer
+can use functions to describe properties such as reflectance (e.g., BRDFs, BSSRDFs), 
+stiffness, or other spatially varying properties. 
+Although it is possible to define the object directly by only specifying material
+properties, intuitive user
+interfaces will aid in specifying the objects and their properties
+in terms of intuitive metaphors.
+For example, the elastic properties of an object can be specified by a set of
+example displacements from the rest pose and the corresponding applied forces.
 \subsection{Optimization Framework}
 Describe four main components and some built-in libraries.
 \section{Experiments}
