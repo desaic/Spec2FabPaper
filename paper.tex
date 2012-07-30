@@ -92,7 +92,7 @@ with desired mechanical, electrical, optical, and appearance properties into com
 We will achieve this goal through a reduction-optimization-simulation approach.
 \section{Previous Work}
 \subsection{Simulation of the Appearance of Ink Combinations}
-[20] built a system
+\cite{Matusik:2009} built a system
 for the measurement of Bidirectional Reflectance Distribution Functions (BRDFs) and were able
 to acquire BRDFs for both single-layer and multi-layer ink printouts (e.g., an ink covered by a
 varnish layer). They then acquired a database of many different combinations of ink layers (up to
@@ -100,7 +100,7 @@ seven layer combinations were considered). However, they did not develop a metho
 the appearance of arbitrary ink layers. They were able to interpolate the appearance by spatially
 multiplexing small tiles of different base combinations. By linearity of light transport, the simulation
 of the combined appearance was reduced to linear combinations of the base BRDFs. 
-simulation method for the appearance of translucent materials [59]. 
+simulation method for the appearance of translucent materials \cite{Hasan:2010}. 
 They
 built a measurement system for estimating multiple-scattering in homogeneous material slabs. They
 measured both transmission and refection for a set of base materials used by the OBJET Connex
@@ -117,10 +117,10 @@ simulating behavior of multi-layered materials, where each layer is a homogeneou
 Then we extend this simulation to materials in which each voxel is made of a different measured
 material. Since this general simulation is expensive and requires path-tracing algorithms, we used
 algorithms that are based on fast numerical integration of our low-dimensional representations
-and the use of pre-computation, similar to pre-computed light transport approaches [63].
+and the use of pre-computation, similar to pre-computed light transport approaches \cite{Sloan:2002}.
 \subsection{Simulation of Deformation Behavior}
 In previous work, the problem
-of modeling and simulating soft materials and their deformation behavior [22, 60].
+of modeling and simulating soft materials and their deformation behavior \cite{Bickel:2010,Bickel:2009}.
 In order to accurately model deformation behaviors they built a system that allowed measuring how
 a given material deforms subject to a variety of external forces. 
 The system used an automated
@@ -151,7 +151,7 @@ In order to measure viscoelastic material properties, we will need to modify our
 system and procedures. We will use repeatable, time-coded measurements to estimate
 Figure 5: From left to right: Force-and-deformation capture of a non-linear heterogeneous pillow;
 synthesized deformation with fitted material parameters; and interactive deformation synthesized
-with our soft tissue modeling technique using scattered data interpolation [60].
+with our soft tissue modeling technique using scattered data interpolation \cite{Bickel:2010}.
 
 We will also use faster resonating actuators and high-speed
 camera systems to track material deformations at high frame rates. Furthermore, we plan to track
@@ -240,12 +240,14 @@ Code examples:
 To generate textured model:
 \begin{verbatim}
 Manager manager;
-manager.loadMaterialLibrary("material_file");
-manager.setGenerator(new HeightFieldGenerator());
-manager.setSimulator(new SomeColorSimulator());
-manager.setMetric(new SomeColorMetric());
+manager.loadMaterialLib("material_file");
+manager.setGenerator(
+  new HeightFieldGenerator());
+manager.setSimulator(colorSimulator());
+manager.setMetric(someColorMetric());
 manager.setOptimizer(
-  new SimulatedAnealing/GradientDescent());
+  simulatedAnealing);
+  //or e.g. gradientDescent
 Objective obj;
 Scene scene;
 TexturedShape shape("filename");
@@ -258,21 +260,23 @@ manager.addObjective(obj);
 
 To generate BRDF
 \begin{verbatim}
-manager.setGenerator(new StackingGenerator());
-manager.setSimulator(new BRDFSimulator());
-manager.setMetric(new SomeImageMetric());
+manager.setGenerator(stackingGenerator);
+manager.setSimulator(brdfSimulator);
+manager.setMetric(someImageMetric);
 Shape shape("filename"), 
 Image goal("filename1");
 \end{verbatim}
 
 Deformation
 \begin{verbatim}
-scene.addForce(new Force(pos, dir, shapeID));
-scene.addConstraint(
-  new Constraint(
+force = new Force(pos, dir, shapeID);
+constraint = new Constraint(
     FIX_VERTEX, vertexList, shapeID));
+
+scene.addForce(force);
+scene.addConstraint(constraint);
 Shape goal;
-manager.setSimulator(new FEMSimulator());
+manager.setSimulator(femSimulator);
 \end{verbatim}
 
 \section{Experiments}
@@ -281,7 +285,7 @@ Subsurface scattering. Mechanical properties
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 	\centering
-% 	\includegraphics[width=\textwidth]{a}
+ %	\includegraphics[width=\textwidth]{Spec2FabData.png}
    	\caption{}
     \label{fig:ssOrigin}
     \end{subfigure}
@@ -289,7 +293,7 @@ Subsurface scattering. Mechanical properties
     \begin{subfigure}[b]{0.3\textwidth}
     \centering
 %  	\includegraphics[width=\textwidth]{a}
-    \caption{}
+    \caption{b}
     \label{fig:ssPrint}
 \end{subfigure}
 \caption{Subsurface Scattering. (a)Original object. (b)Printed model.}
@@ -356,5 +360,5 @@ UI to specify input deformation.
 \section*{Acknowledgements}
 
 \bibliographystyle{acmsiggraph}
-\bibliography{template}
+\bibliography{paper}
 \end{document}
