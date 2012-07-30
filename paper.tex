@@ -248,7 +248,8 @@ manager.setOptimizer(
   new SimulatedAnealing/GradientDescent());
 Objective obj;
 Scene scene;
-TexturedShape shape("filename"), goal("filename1");
+TexturedShape shape("filename");
+TexturedShape goal("filename1");
 scene.addShape(shape);
 obj.setScene(scene);
 obj.setGoal(goal);
@@ -268,13 +269,74 @@ Deformation
 \begin{verbatim}
 scene.addForce(new Force(pos, dir, shapeID));
 scene.addConstraint(
-  new Constraint(FIX_VERTEX, vertexList, shapeID));
+  new Constraint(
+    FIX_VERTEX, vertexList, shapeID));
 Shape goal;
 manager.setSimulator(new FEMSimulator());
 \end{verbatim}
+
 \section{Experiments}
 \subsection{Previous Work}
 Subsurface scattering. Mechanical properties
+\begin{figure}
+\begin{subfigure}[b]{0.3\textwidth}
+	\centering
+% 	\includegraphics[width=\textwidth]{a}
+   	\caption{}
+    \label{fig:ssOrigin}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+%  	\includegraphics[width=\textwidth]{a}
+    \caption{}
+    \label{fig:ssPrint}
+\end{subfigure}
+\caption{Subsurface Scattering. (a)Original object. (b)Printed model.}
+\label{fig:SS}
+\end{figure}
+
+\begin{figure}
+\begin{subfigure}[b]{0.3\textwidth}
+	\centering
+% 	\includegraphics[width=\textwidth]{a}
+   	\caption{}
+    \label{fig:deformPhoto}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+%  	\includegraphics[width=\textwidth]{a}
+    \caption{}
+    \label{fig:deformPrint}
+\end{subfigure}
+\caption{Matching deformation. (a)photo of a slab being pushed. (b)Printed model being pushed.}
+\label{fig:deform}
+\end{figure}
+
+Two error plots showing subsurface scattering and deformation errors decrease
+after each iteration in Figure~\ref{fig:err}.
+
+\begin{figure}
+\begin{subfigure}[b]{0.3\textwidth}
+	\centering
+% 	\includegraphics[width=\textwidth]{a}
+   	\caption{}
+    \label{fig:ssErr}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+%  	\includegraphics[width=\textwidth]{a}
+    \caption{}
+    \label{fig:deformErr}
+\end{subfigure}
+\caption{Error plots for 
+optimizing subsurface-scattering and deformation properties 
+iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
+\label{fig:err}
+\end{figure}
+
 \subsection{Textured Model}
 Input: a textured 3D model and
 	measured Albedo of print material.
