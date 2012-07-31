@@ -21,7 +21,7 @@
 
 \usepackage{caption}
 \usepackage{subcaption}
-
+\usepackage[english]{babel}
 \title{Goes Here}
 
 \author{}
@@ -34,28 +34,28 @@
  \teaser{
    \begin{subfigure}[b]{0.3\textwidth}
 	\centering
-%    	\includegraphics[width=\textwidth]{a}
+    	\includegraphics[width=0.6\textwidth]{figure/bunny_orig.png}
       	\caption{}
         \label{teaser:original}
         \end{subfigure}
         ~ 
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.18\textwidth}
                 \centering
-%    	\includegraphics[width=\textwidth]{a}
+    	\includegraphics[width=\textwidth]{figure/bunny_print1.jpg}
                 \caption{}
                 \label{teaser:ours}
         \end{subfigure}
         ~
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.2\textwidth}
                 \centering
-%    	\includegraphics[width=\textwidth]{a}
+    	\includegraphics[width=\textwidth]{figure/bunny_print2.jpg}
                 \caption{}
                 \label{teaser:makerbot}
         \end{subfigure}
         ~
-        \begin{subfigure}[b]{0.3\textwidth}
+        \begin{subfigure}[b]{0.18\textwidth}
                 \centering
-%    	\includegraphics[width=\textwidth]{a}
+    	\includegraphics[width=\textwidth]{figure/bunny_print3.jpg}
                 \caption{}
                 \label{teaser:objet}
         \end{subfigure}
@@ -215,7 +215,7 @@ valid material structures. Then, a machine learning algorithm infers both basic 
 for combining them. The optimization framework can be further improved by employing techniques that cluster
 partial solutions that yield similar output properties, avoiding combinatorial explosion of the search space.
 Furthermore, we can employ bounds on the solution based on physical constraints of the base materials.
-\section{Optimization}
+\subsection{Optimization}
 Our optimization component is an interface to 
 existing standard optimization techniques
 such as simulated annealing, genetic algorithms and
@@ -282,39 +282,26 @@ manager.setSimulator(femSimulator);
 \section{Experiments}
 \subsection{Previous Work}
 Subsurface scattering. Mechanical properties
-\begin{figure}
-\begin{subfigure}[b]{0.3\textwidth}
-	\centering
- %	\includegraphics[width=\textwidth]{Spec2FabData.png}
-   	\caption{}
-    \label{fig:ssOrigin}
-    \end{subfigure}
-    ~ 
-    \begin{subfigure}[b]{0.3\textwidth}
-    \centering
-%  	\includegraphics[width=\textwidth]{a}
-    \caption{b}
-    \label{fig:ssPrint}
-\end{subfigure}
-\caption{Subsurface Scattering. (a)Original object. (b)Printed model.}
-\label{fig:SS}
-\end{figure}
+A figure showing a material with a particular
+look and deformation properties is shown in Figure~\ref{fig:deform}
 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 	\centering
-% 	\includegraphics[width=\textwidth]{a}
+ 	\includegraphics[width=\textwidth]{figure/slab_origin.png}
    	\caption{}
     \label{fig:deformPhoto}
     \end{subfigure}
     ~ 
     \begin{subfigure}[b]{0.3\textwidth}
     \centering
-%  	\includegraphics[width=\textwidth]{a}
+  	\includegraphics[width=\textwidth]{figure/slab_deform.png}
     \caption{}
     \label{fig:deformPrint}
 \end{subfigure}
-\caption{Matching deformation. (a)photo of a slab being pushed. (b)Printed model being pushed.}
+\caption{Simutaneously matching appearance and deformation. 
+(a)Original slab of a particular looking. (b)printed slab 
+with the same looking and desired deformation.}
 \label{fig:deform}
 \end{figure}
 
@@ -324,14 +311,14 @@ after each iteration in Figure~\ref{fig:err}.
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 	\centering
-% 	\includegraphics[width=\textwidth]{a}
+ 	\includegraphics[width=\textwidth]{figure/error.pdf}
    	\caption{}
     \label{fig:ssErr}
     \end{subfigure}
     ~ 
     \begin{subfigure}[b]{0.3\textwidth}
     \centering
-%  	\includegraphics[width=\textwidth]{a}
+  	\includegraphics[width=\textwidth]{figure/error.pdf}
     \caption{}
     \label{fig:deformErr}
 \end{subfigure}
@@ -349,8 +336,42 @@ Output: (Probably gray-scale) Material arranged for different printers in differ
 
 Printers: Our printer, Makerbot, Objet, maybe Zcorp.
 
+We expand gamut of printable colors by stacking translucent materials. We then applied
+dithering with our expanded colors.
 \subsection{New Examples for Mechanical Properties}
-Ball bounce to certain height. Loaded dice.
+Ball bounce to certain height. 
+
+A plot of bounce height after each iteration.
+
+Loaded dice. It has a certain probability to land on "1".
+A table of probability distribution of landing on each side
+is shown in Table~\ref{tab:dice}.
+
+\begin{table}
+\centering
+  \begin{tabular}{ |c| p{0.7in} | p{0.7in} | }
+  \hline
+  face & simulated probability & measured probability\\
+  \hline
+  1 & 0.5 & 0.5\\
+  \hline
+  2 & 0.1 & 0.1\\
+  \hline
+  3 & 0.1 & 0.1\\
+  \hline
+  4 & 0.1 & 0.1\\
+  \hline
+  5 & 0.1 & 0.1\\
+  \hline
+  6 & 0.1 & 0.1\\
+
+  \hline
+  \end{tabular}
+  \caption{Simulated and measured dice probability}
+  \label{tab:dice}
+\end{table}
+
+A plot of simulated probability of landing on "1" after each iteration.
 
 Printer:objet, ours.
 
