@@ -62,6 +62,7 @@
         \caption{A textured mesh printed with different types of 3D printers.
         	(a)original model.(b)printed with our printer.(c)makerbot.
         	(d)objet}\label{teaser}
+	\label{fig:texture}
  }
 
 \maketitle
@@ -199,10 +200,10 @@ Our framework includes an optimization component that
 searches through the space of possible device inputs
 to find the one that best reproduces
 the desired object. Unfortunately, this search space
-is usually high-dimensional. For example, when the printing
+is usually intractable. For example, when the printing
 volume has N voxels and each of these voxels can be
 assigned to one of M base materials, the search space
-has $N^M$ dimensions. To overcome this problem, we decompose the search
+contains $N^M$ choices. To overcome this problem, we decompose the search
 space into similar subproblems and also reduce
 the search space to a lower-dimensional space using
 a reduction model. The goal of the reduction step is to
@@ -210,16 +211,18 @@ shrink the search space as much as possible but at the
 same time not to prune out good solutions. The low-dimensional space produced by the
 reducer can be defined in two different ways. First, a reduction model can be explicitly specified by an expert, for
 example, by defining structures of base materials and rules how different base materials can be combined together.
+In this paper, all reduction models are manually specified by us.
 The second way to specify a reduction model is implicit. In this case, the user provides a set of examples of
 valid material structures. Then, a machine learning algorithm infers both basic material structures and the rules
 for combining them. The optimization framework can be further improved by employing techniques that cluster
 partial solutions that yield similar output properties, avoiding combinatorial explosion of the search space.
 Furthermore, we can employ bounds on the solution based on physical constraints of the base materials.
 \subsection{Optimization}
-Our optimization component is an interface to 
+Our optimization component is an interface to
 existing standard optimization techniques
-such as simulated annealing, genetic algorithms and
-Markov Chain Monte Carlo methods, as well as custom optimization algorithms implemented
+such as simulated annealing, variational inference and
+Markov Chain Monte Carlo methods,
+as well as custom optimization algorithms implemented
 by more advanced users.
 \subsection{Simulation}
 Another key step in the process of converting abstractions to physical output is being able to
@@ -236,6 +239,21 @@ we can cache and reuse partial simulation results, speeding up the evaluation pr
 Furthermore, we will ensure that the simulation is accurate by measuring properties of the printing materials and using
 these measurements to estimate the parameters of data-driven material models (e.g., for elasticity, reflectance).
 \section{Programming with Our API}
+We provide a built-in library that handles common tasks such as assigning texture,
+simulating deformation, and optimizing for a stacking.
+A casual user mostly make function calls to an existing 
+manager to pass data and to run the optimization.
+More advanced user can configure the manager to achieve more specific requirements.
+For example, he can swap out an existing optimization module to achieve a better accuracy or 
+a faster speed.
+A professional user can implement more modules when he wants to deal with new
+material properties that are not handled by our built-in library. In that case,
+he needs to know what value the new property is in print materials, he needs to know
+how to simulate for the new property, and how to measure error of the new property.
+
+In below, we provide code snippets that handles three common tasks
+that we expect a moderately advanced user would write.
+
 Code examples:
 To generate textured model:
 \begin{verbatim}
@@ -282,7 +300,7 @@ manager.setSimulator(femSimulator);
 \section{Experiments}
 \subsection{Previous Work}
 Subsurface scattering. Mechanical properties
-A figure showing a material with a particular
+A material with a particular
 look and deformation properties is shown in Figure~\ref{fig:deform}
 
 \begin{figure}
@@ -338,6 +356,7 @@ Printers: Our printer, Makerbot, Objet, maybe Zcorp.
 
 We expand gamut of printable colors by stacking translucent materials. We then applied
 dithering with our expanded colors.
+Results are shown in Figure~\ref{fig:texture}
 \subsection{New Examples for Mechanical Properties}
 Ball bounce to certain height. 
 
@@ -352,7 +371,8 @@ The height and desired height is plotted in Figure~\ref{fig:ball}
 \end{figure}
 
 
-A loaded die as shown in Figure~\ref{fig:die}. 
+A loaded die as shown in Figure~\ref{fig:die}. This example is interesting because
+a local change will have some global effect.
 \begin{figure}
 	\centering
  	\includegraphics[width=0.25\textwidth]{figure/die.png}
@@ -387,10 +407,20 @@ is shown in Table~\ref{tab:dice}.
   \label{tab:dice}
 \end{table}
 
-A plot of simulated probability of landing on "1" after each iteration.
+A plot of simulated probability of landing on "1" after each iteration
+is shown in Figure~\ref{fig:dieErr}.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.3\textwidth]{figure/die.pdf}
+\caption{Probability of die landing on 1 after each iteration.}
+\label{fig:dieErr}
+\end{figure}
 
 Printer:objet, ours.
 
+More ideas:
+balancing bird with texture.
 \section{Possible Extension}
 UI to specify input deformation.
 \section{Conclusion}
