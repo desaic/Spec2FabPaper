@@ -22,7 +22,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage[english]{babel}
-\title{Goes Here}
+\title{Spec2Fab: A  High-Fidelity Mapping from Specification to Fabrication}
 
 \author{}
 \pdfauthor{}
@@ -159,6 +159,8 @@ camera systems to track material deformations at high frame rates. Furthermore, 
 the whole material volume rather than the outer material surface. This is possible since we can
 print materials in clear color as well. Thus small color-coded markers can be easily embedded into
 the material structure. These markers can be tracked in 3D using a multi-camera system.
+\subsection{Optimization for Fabrication}
+Caustics, shadowpix, balloon
 \section{System Description}
 The software framework (shown in Figure~\ref{fig:framework}) is composed of 
 a set of software
@@ -180,7 +182,7 @@ set of examples. Next, we will describe each element of the framework in
 more detail.
 \begin{figure}
 \includegraphics[width=0.45\textwidth]{figure/framework.pdf}
-\caption{API overview}
+\caption{API overview. The diagram will become nicer.}
 \label{fig:framework}
 \end{figure}
 \subsection{Input API}
@@ -191,7 +193,7 @@ An overview of the three components of our API is shown in Figure~\ref{fig:input
 
 \begin{figure}
 \includegraphics[width=0.45\textwidth]{figure/inputAPI.pdf}
-\caption{Input API overview}
+\caption{Input API. The diagram will become nicer.}
 \label{fig:inputAPI}
 \end{figure}
 
@@ -250,9 +252,49 @@ and finite element simulation packages. Since we run the simulation multiple tim
 we can cache and reuse partial simulation results, speeding up the evaluation process at least 10-100 times.
 Furthermore, we will ensure that the simulation is accurate by measuring properties of the printing materials and using
 these measurements to estimate the parameters of data-driven material models (e.g., for elasticity, reflectance).
-\section{Programming with Our API}
+
+\section{Built-in Components}
 We provide a built-in library that handles common tasks such as assigning texture,
 simulating deformation, and optimizing for a stacking.
+\subsection{Generator}
+\begin{enumerate}
+\item A generator that uses a uniform grids with homogeneous
+material in each grid cell. (A foam structure is treated as one homogeneous material).
+\item A generator that decomposes a mesh into columns of stackings where each
+column can be addressed separately by Generator::chooseSection.
+This is useful for problems where local changes don't global effects such as
+matching texture, matching mechanical properties of each column.
+\item A polynomial spline representation for modifying the surface mesh.
+\item A polynomial spline for height field of internal material layers (does not modify
+surface mesh).
+\end{enumerate}
+
+\subsection{Simulator}
+\begin{enumerate}
+\item Physics simulator with FEM, rigid body simulation
+and simple collision resolution.
+\item nVidia optiX to do photon mapping for caustics. Maybe also BRDF and shadows.
+We need to look at its speed.
+\item local computations such as reflectance and local mechanical properties given a stacking.
+\end{enumerate}
+
+\subsection{Metric}
+Optionally returns a gradient represented as an array of signed floats.
+\begin{enumerate}
+\item Compare a mesh and its deformed state. There is one-to-one correspondence of 
+vertices.
+\item compare two images
+\item compare two real numbers such as weight and bouncing height.
+\end{enumerate}
+
+\subsection{Optimizer}
+\begin{enumerate}
+\item MCMC, Simulated Anealing, SPSA
+\item Branch and bound (plus clustering of similar configurations)
+\item (Optional) reinforcement learning, deep neural networks...
+\end{enumerate}
+
+\section{Programming with Our API}
 A casual user mostly make function calls to an existing 
 manager to pass data and to run the optimization.
 More advanced user can configure the manager to achieve more specific requirements.
