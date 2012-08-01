@@ -179,13 +179,25 @@ The reduction model can specified by experts or deduced from a
 set of examples. Next, we will describe each element of the framework in
 more detail.
 \begin{figure}
+\includegraphics[width=0.45\textwidth]{figure/framework.pdf}
 \caption{API overview}
 \label{fig:framework}
 \end{figure}
 \subsection{Input API}
+Our input API handles three tasks: specifying an optimization problem,
+maintaining a material library and configuring existing modules of
+the optimization process.
+An overview of the three components of our API is shown in Figure~\ref{fig:inputAPI}
+
+\begin{figure}
+\includegraphics[width=0.45\textwidth]{figure/inputAPI.pdf}
+\caption{Input API overview}
+\label{fig:inputAPI}
+\end{figure}
+
 Our input API allows a designer to either
 define material properties for sections of an object
-or specify behavior of an object. 
+or specify behavior of an object.
 The designer
 can use functions to describe properties such as reflectance (e.g., BRDFs, BSSRDFs), 
 stiffness, or other spatially varying properties. 
