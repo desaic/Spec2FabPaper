@@ -330,8 +330,10 @@ obj.setGoal(goal);
 manager.addObjective(obj);
 \end{verbatim}
 
-To generate BRDF
+To optimize BRDF for a particular camera view point and lighting.
 \begin{verbatim}
+scene.setCamera(camera);
+scene.addLight(light);
 manager.setGenerator(stackingGenerator);
 manager.setSimulator(brdfSimulator);
 manager.setMetric(someImageMetric);
@@ -339,7 +341,10 @@ Shape shape("filename"),
 Image goal("filename1");
 \end{verbatim}
 
-Deformation
+Defining elasticity properties
+by specifying deformation 
+reaction to a force applied to a point.
+
 \begin{verbatim}
 force = new Force(pos, dir, shapeID);
 constraint = new Constraint(
@@ -352,6 +357,8 @@ manager.setSimulator(femSimulator);
 \end{verbatim}
 
 \section{Experiments}
+\section{Print Material Characterization and Measurement}
+
 \subsection{Previous Work}
 Subsurface scattering. Mechanical properties
 A material with a particular
