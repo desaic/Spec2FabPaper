@@ -373,13 +373,6 @@ material with a particular
 look and deformation properties as shown in Figure~\ref{fig:deform}.
 We als considered one additional property:mass. In this example, we
 tried to make the material as light as possible.
-\section{Caustics for a Mesh}
-We demonstrate how to produce a 3D model with specific caustic shape under a particular lighting,
-similar to \cite{Finckh:2010}. The difference is that we optimize on an arbitrary 3D model,
-and we use a generic rendering package (NVidia optiX). Our algorithm took 6 hours to finish
-with $4000$ spline control points for the model and $600\times 600$ resolution for the caustic image. A 
-picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
-
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 	\centering
@@ -421,6 +414,20 @@ after each iteration in Figure~\ref{fig:err}.
 optimizing subsurface-scattering and deformation properties 
 iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 \label{fig:err}
+\end{figure}
+
+\section{Caustics for a Mesh}
+We demonstrate how to produce a 3D model with specific caustic shape under a particular lighting,
+similar to \cite{Finckh:2010}. The difference is that we optimize on an arbitrary 3D model,
+and we use a generic rendering package (NVidia optiX). Our algorithm took 6 hours to finish
+with $4000$ spline control points for the model and $600\times 600$ resolution for the caustic image. A 
+picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.3\textwidth]{figure/caustic.jpg}
+\caption{Teapot with a caustic image.}
+\label{fig:caustic}
 \end{figure}
 
 \subsection{Textured Model}
