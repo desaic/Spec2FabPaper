@@ -363,12 +363,22 @@ manager.setSimulator(femSimulator);
 \end{verbatim}
 
 \section{Experiments}
-\section{Print Material Characterization and Measurement}
+\subsection{Print Material Characterization and Measurement}
 
-\subsection{Previous Work}
-Subsurface scattering. Mechanical properties
-A material with a particular
-look and deformation properties is shown in Figure~\ref{fig:deform}
+\subsection{Subsurface Scattering, Deformation and Mass}
+Combining previous work on replicating
+subsurface scattering and deformation behavior, 
+we produced
+material with a particular
+look and deformation properties as shown in Figure~\ref{fig:deform}.
+We als considered one additional property:mass. In this example, we
+tried to make the material as light as possible.
+\section{Caustics for a Mesh}
+We demonstrate how to produce a 3D model with specific caustic shape under a particular lighting,
+similar to \cite{Finckh:2010}. The difference is that we optimize on an arbitrary 3D model,
+and we use a generic rendering package (NVidia optiX). Our algorithm took 6 hours to finish
+with $4000$ spline control points for the model and $600\times 600$ resolution for the caustic image. A 
+picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
