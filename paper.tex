@@ -280,18 +280,16 @@ surface voxelization and $G_2$ is a very coarse inner
 grid.}
 \label{fig:genCompose}
 \end{figure}
+
+We will provide the following generators.
 \begin{enumerate}
 \item A generator that uses a uniform grids with homogeneous
 material in each grid cell. (A foam structure is treated as one homogeneous material).
-\item A generator that decomposes a mesh into columns of stackings where each
-column can be addressed separately by Generator::chooseSection.
-This is useful for problems where local changes don't global effects such as
-matching texture, matching mechanical properties of each column.
-\item A polynomial spline representation for modifying the surface mesh.
-\item A polynomial spline for height field of internal material layers (does not modify
-surface mesh).
+\item A generator that decomposes a mesh into columns of stackings.
+\item A polynomial spline for outline of a material.
 \end{enumerate}
-
+We use composition of the above basic generators to make the examples in 
+the result section.
 \subsection{Simulator}
 \begin{enumerate}
 \item Physics simulator with FEM, rigid body simulation
@@ -380,16 +378,29 @@ manager.setSimulator(femSimulator);
 \end{verbatim}
 
 \section{Experiments}
+We used various generators in our experiments.
 \subsection{Print Material Characterization and Measurement}
-
 \subsection{Subsurface Scattering, Deformation and Mass}
 Combining previous work on replicating
 subsurface scattering and deformation behavior, 
 we produced
 material with a particular
 look and deformation properties as shown in Figure~\ref{fig:deform}.
-We als considered one additional property:mass. In this example, we
+We als considered one additional property:mass. 
+In this example, we
 tried to make the material as light as possible.
+
+We tried different combinations of generators in this experiment.
+We compared the performance of these different generator
+in terms of run-time and error.
+\begin{enumerate}
+\item Spline for top layer, fine-grained voxelization for mid layer
+and a coarse grid for bottom layer.
+\item Voxels for top layer, splines for middle layer and a coarse
+bottom layer.
+\item Find-grained voxels for top layer and coarse grid for bottom layer.
+\end{enumerate}
+
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
 	\centering
@@ -433,10 +444,12 @@ iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 \label{fig:err}
 \end{figure}
 
-\section{Caustics for a Mesh}
+\subsection{Caustics for a Mesh}
 We demonstrate how to produce a 3D model with specific caustic shape under a particular lighting,
 similar to \cite{Finckh:2010}. The difference is that we optimize on an arbitrary 3D model,
-and we use a generic rendering package (NVidia optiX). Our algorithm took 6 hours to finish
+and we use a generic rendering package (NVidia optiX). 
+We represented the surface with a spline surface.
+Our algorithm took 6 hours to finish
 with $4000$ spline control points for the model and $600\times 600$ resolution for the caustic image. A 
 picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
 
@@ -449,17 +462,23 @@ picture of our printed result under desired lighting is shown in Figure~\ref{fig
 
 \subsection{Textured Model}
 Input: a textured 3D model and
-	measured Albedo of print material.
+measured Albedo of print material.
 
 Output: (Probably gray-scale) Material arranged for different printers in different formats: STL, fable,Gcode.
 
 Printers: Our printer, Makerbot, Objet, maybe Zcorp.
 
-We expand gamut of printable colors by stacking translucent materials. We then applied
+When printing texture, only the outer layer matters. We used 
+a composition of two generators: a very high resolution grid
+for the outer layer and a uniform material for the inside.
+
+We expand the set of printable colors by stacking translucent materials. We then applied
 dithering with our expanded colors.
 Results are shown in Figure~\ref{fig:texture}
 \subsection{New Examples for Mechanical Properties}
-Ball bounce to certain height. 
+Ball bounce to certain height. We used a higher resolution
+grid for the out layer and very low resolution
+for the inner mesh.
 
 A plot of bounce height after each iteration.
 The height and desired height is plotted in Figure~\ref{fig:ball}
@@ -474,6 +493,8 @@ The height and desired height is plotted in Figure~\ref{fig:ball}
 
 A loaded die as shown in Figure~\ref{fig:die}. This example is interesting because
 a local change will have some global effect.
+We used very high resolution grid for the surface to match texture
+of a die. The inner lay has only $3\times 3$ resolution.
 \begin{figure}
 	\centering
  	\includegraphics[width=0.25\textwidth]{figure/die.png}
