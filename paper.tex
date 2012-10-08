@@ -223,10 +223,11 @@ the desired object. Unfortunately, this search space
 is usually intractable. For example, when the printing
 volume has N voxels and each of these voxels can be
 assigned to one of M base materials, the search space
-contains $N^M$ choices. To overcome this problem, we decompose the search
+contains $N^M$ choices. 
+To overcome this problem, we decompose the search
 space into similar subproblems and also reduce
-the search space to a lower-dimensional space using
-a reduction model. The goal of the reduction step is to
+the search space to a lower-dimensional space using a reduction model. 
+The goal of the reduction step is to
 shrink the search space as much as possible but at the
 same time not to prune out good solutions. The low-dimensional space produced by the
 reducer can be defined in two different ways. First, a reduction model can be explicitly specified by an expert, for
@@ -263,6 +264,22 @@ these measurements to estimate the parameters of data-driven material models (e.
 We provide a built-in library that handles common tasks such as assigning texture,
 simulating deformation, and optimizing for a stacking.
 \subsection{Generator}
+Generator uses a reduced representation
+of material assignments.
+Each generator is defined over a domain in the input shape.
+We provide a few basic generators and a composition operator.
+Let the input shape be over a domain $\Omega$.
+The composition of two generators $G_2\circ G_1$ is implemented by
+first letting $G_1$ reduce over a domain $\Omega_1$ and
+then letting $G_2$ reduce $\Omega_2 = \Omega-\Omega_1$.
+An example is shown in Figure~\ref{fig:genCompose}
+\begin{figure}[h]
+\includegraphics[scale=0.2]{figure/genCompose.png}
+\caption{Composition of two generators. $G_1$ is a fine-grained
+surface voxelization and $G_2$ is a very coarse inner
+grid.}
+\label{fig:genCompose}
+\end{figure}
 \begin{enumerate}
 \item A generator that uses a uniform grids with homogeneous
 material in each grid cell. (A foam structure is treated as one homogeneous material).
