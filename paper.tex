@@ -152,12 +152,33 @@ Below we will describe the key components of our framework and its associated AP
 \subsection{The Reducer Network}
 Computing material assignments at output device resolution is computationally intractable. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z,\theta\right)$ to an input volumetric region. Lambda can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $\theta$. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph however, for material assignment problems this is neither required nor desired. 
 
- See \textbf{Figure 1} for an example of a Reducer Network. \note{Desai: Make figure 1}.  
+ See \textbf{Figure \ref{fig:red1}} for an example of a Reducer Network. \note{Desai: Make figure 1}.  
+
+\begin{figure}[h]
+\includegraphics[scale=0.3]{figure/redNetwork.pdf}
+\caption{An Reducer Network we used to produce one of our results.
+The input shape is sliced into two layers with the stratum partition node.
+The top slice is then partitioned into columns. Each column is assigned
+a stack of material layers.}
+\label{fig:red1}
+\end{figure}
 
 \subsection{Tuners}
+Tuner is an interface between a Reducer Node and an optimization algorithm.
+A Tuner contains a pointer to a Reducer Node and a pointer to a generic optimization subroutine.
+When a Tuner is linked to a Reducer Node, 
+it can tune the free variables contained in the sub-tree rooted at that node.
 \note{Desai: can you write this section, I don't know the details}
 \subsection{Tuning the Reducer Network}
-
+A Tuner initializes the optimization by querying the search space from its Reducer Node.
+The Reducer Node computes the search space by traversing its sub-tree and collecting
+free variables.
+The search space specifies the number of free variables, the type of each free variable
+(discrete or continuous) and the bounds of these variables.
+With the search space specifies, the Tuner's optimization subroutine executes.
+The optimization subroutine may ask for additional information such as
+the error value of a variable assignment and the gradient. These queries are answered
+with call-back functions set up by the Tuner before executing the optimization subroutine.
 \subsection{Tuner Network}
 \note{Desai: also this section :) }
 %\section{System Description}
