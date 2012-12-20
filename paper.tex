@@ -23,7 +23,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage[english]{babel}
-\title{Spec2Fab: A  Graph-Based Framework for Fabricating Fabrication Algorithms}
+\usepackage{hyperref}
+\title{Spec2Fab: A  Graph-Based Reduction for Fabricating Fabrication Algorithms}
 
 \author{}
 \pdfauthor{}
@@ -90,88 +91,64 @@ Computational fabrication couples new digital manufacturing techniques with nove
 
 In this paper we focus on a fundamental problem in producing any such custom object:  optimal material assignment. Given an object one must find a spatially varying material distribution that satisfies some given criteria. The algorithms that solve these problems are often complicated to develop, implement, test and modify. We provide a new graph-based framework which decomposes such problems into a small set of constituent components alleviating the above issues as well as facilitating the development and testing of new algorithms. 
 
-\section{Previous Work}
-\subsection{Simulation of the Appearance of Ink Combinations}
-\cite{Matusik:2009} built a system
-for the measurement of Bidirectional Reflectance Distribution Functions (BRDFs) and were able
-to acquire BRDFs for both single-layer and multi-layer ink printouts (e.g., an ink covered by a
-varnish layer). They then acquired a database of many different combinations of ink layers (up to
-seven layer combinations were considered). However, they did not develop a method to simulate
-the appearance of arbitrary ink layers. They were able to interpolate the appearance by spatially
-multiplexing small tiles of different base combinations. By linearity of light transport, the simulation
-of the combined appearance was reduced to linear combinations of the base BRDFs. 
-simulation method for the appearance of translucent materials \cite{Hasan:2010}. 
-They
-built a measurement system for estimating multiple-scattering in homogeneous material slabs. They
-measured both transmission and refection for a set of base materials used by the OBJET Connex
-multi-material printer. 
-Using these measurements, our simulations framework was able to predict
-diffuse reflections and transmissions in multi-layered translucent objects composed of base material
-layers.
-In the proposed research, we will extend these methods to cover the complete appearance of
-volumetric materials that accounts for both directly reflected light and light scattering within the
-material volume. 
-We will use efficient simulation methods that allows us to simulate the appearance
-of complex structures composed from these base materials. We developed an initial framework for
-simulating behavior of multi-layered materials, where each layer is a homogeneous base material.
-Then we extend this simulation to materials in which each voxel is made of a different measured
-material. Since this general simulation is expensive and requires path-tracing algorithms, we used
-algorithms that are based on fast numerical integration of our low-dimensional representations
-and the use of pre-computation, similar to pre-computed light transport approaches \cite{Sloan:2002}.
-\subsection{Simulation of Deformation Behavior}
-In previous work, the problem
-of modeling and simulating soft materials and their deformation behavior \cite{Bickel:2010,Bickel:2009}.
-In order to accurately model deformation behaviors they built a system that allowed measuring how
-a given material deforms subject to a variety of external forces. 
-The system used an automated
-robot arm to apply desired forces and a vision subsystem to measure corresponding surface deformations.
-We modeled deformation behavior of a material using a stress-strain relationship. Since
-the deformation behavior of many of our materials was non-linear, we developed a model that could
-accurately represent this behavior and that was also easy to fit to the surface measurements. In
-our model, the stress-strain relationship was represented as a collection of linear stress-strain relationships.
-We used a properly chosen function to interpolate between these linear relationships
-and obtain a non-linear model. Using this system and model we could accurately measure material
-deformation of a collection of materials produced by a multi-material printer and fit these observation
-to the stress-strain model. Then, using this material model within a Finite Element Method
-we could accurately simulate behavior of any shape made from a composite of measured materials.
-In the proposed research, we would like to address the shortcomings of our current measurement
-and models. First, our current approach handles only elastic material deformation. We would like to
-extend our current data-driven model to viscoelastic materials. In fact, most real materials exhibit
-this property, which is characterized by hysteresis (or material memory). For these materials, it is
-not possible to predict the behavior of a material only based on the currently applied stress. One also
-has to know the history (or the sequence) of applied stress values to accurately simulate material
-behavior. In order to determine the material model one has to measure the so called hysteresis
-loops in the stress-strain space (as opposed to a single stress-strain curve for elastic materials). The
-hysteresis loop is the result of the damping effect which causes the material to behave differently
-depending whether stress is applied or removed as some of the energy is dissipated within the
-material into heat. Additional advantage of using this material model is that it will allow us to
-handle dynamic material deformations.
-
-In order to measure viscoelastic material properties, we will need to modify our current measurement
-system and procedures. We will use repeatable, time-coded measurements to estimate
-Figure 5: From left to right: Force-and-deformation capture of a non-linear heterogeneous pillow;
-synthesized deformation with fitted material parameters; and interactive deformation synthesized
-with our soft tissue modeling technique using scattered data interpolation \cite{Bickel:2010}.
-
-We will also use faster resonating actuators and high-speed
-camera systems to track material deformations at high frame rates. Furthermore, we plan to track
-the whole material volume rather than the outer material surface. This is possible since we can
-print materials in clear color as well. Thus small color-coded markers can be easily embedded into
-the material structure. These markers can be tracked in 3D using a multi-camera system.
-\subsection{Optimization for Fabrication}
-\cite{Finckh:2010} computing surface height field
-of transparent material to match caustics pattern.
-ShadowPix \cite{Bermano:2012} produced surface geometry
-that produces different images 
-under different lighting
-directions. \cite{sko:2012} produced balloons that match 3D models when
-inflated.
-\subsection{Shade Trees}
-\note{Should talk about influences from Shade Trees and Shader networks, note that these methods do not have tunable parameters}
+\section{Related Work} 
+Here we will review previous algorithms for solving the optimal material assignment problem . We divide this review into two broad categories, optimizing for desired optical properties and optimizing for desired mechanical properties. Finally we will briefly review work done on modular shader languages as they have influenced our current work.
+\subsection{Material Assignment for Desired Optical Properties}
+Optimizing and manufacturing objects with desired optical characteristics is a popular problem in computer graphics. Building objects which embed image in their caustics has been explored by Finch \textit{et al.} ~\shortcite{Finckh:2010} and Papas \textit{et al.}\shortcite{Marios:2011}. Optimization based approaches have also been employed to control the subsurface scattering of printed 3D models ~\cite{Hasan:2010}. These approaches have also been extended to optically decrypt hidden images ~\cite{Papas:2012}. Finally, optimal shadow casting surfaces have been produced which emulate a given set of input images ~\cite{Bermano:2012}.
+\subsection{Material Assignment for Desired Mechanical Properties}
+Fabricating objects with desire deformation characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a desired shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
+\subsection{Similarities between Methods}
+\autoref{tb:algorithms} shows the coordinate reduction method as well as the optimization scheme used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but rely on a small set of common components to achieve their goals. Thus one could hope to find a small set of components that can be tied together to synthesize existing and new methods. Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems. 
+\begin{table*}[htp]
+\centering
+\caption{The goal type, reduction type and optimization used by previous fabrication works.}
+\begin{tabular}{clll}
+\hline
+\textbf{Paper} & \textbf{Goal} & \textbf{Reduced Coordinates}  & \textbf{Optimization} \\ 
+\hline
+~\cite{Bickel:2010}& Deformation & Layered Materials  & Branch and Bound \\
+~\cite{Finckh:2010} & Optical (Caustics) & B-Spline Surface & ??? \\
+~\cite{Hasan:2010}& Optical (Subsurface) & Layered Materials & Branch and Bound\\ 
+~\cite{Marios:2011} & Optical (Caustics) & Quadratic Surface Tiles & Simulated Annealing \\
+~\cite{Bermano:2012} & Optical (Shadows) & Height Field & Custom/Simulated Annealing \\
+~\cite{Bickel:2012} & Deformation &  Height Field &  Newton-Raphson \\
+~\cite{Papas:2012} & Optical & Quadratic Surface Tiles & Simulated Annealing \\
+~\cite{sko:2012}& Deformation & Triangle Mesh & ALM \\
+\hline
+\end{tabular}
+\label{tb:algorithms}
+\end{table*}
+%\subsection{Simulation of the Appearance of Ink Combinations}
+%\cite{Matusik:2009} built a system
+%for the measurement of Bidirectional Reflectance Distribution Functions (BRDFs) and were able
+%to acquire BRDFs for both single-layer and multi-layer ink printouts (e.g., an ink covered by a
+%varnish layer). They then acquired a database of many different combinations of ink layers (up to
+%seven layer combinations were considered). However, they did not develop a method to simulate
+%the appearance of arbitrary ink layers. They were able to interpolate the appearance by spatially
+%multiplexing small tiles of different base combinations. By linearity of light transport, the simulation
+%of the combined appearance was reduced to linear combinations of the base BRDFs. 
+%simulation method for the appearance of translucent materials \cite{Hasan:2010}. 
+%They
+%built a measurement system for estimating multiple-scattering in homogeneous material slabs. They
+%measured both transmission and refection for a set of base materials used by the OBJET Connex
+%multi-material printer. 
+%Using these measurements, our simulations framework was able to predict
+%diffuse reflections and transmissions in multi-layered translucent objects composed of base material
+%layers.
+%In the proposed research, we will extend these methods to cover the complete appearance of
+%volumetric materials that accounts for both directly reflected light and light scattering within the
+%material volume. 
+%We will use efficient simulation methods that allows us to simulate the appearance
+%of complex structures composed from these base materials. We developed an initial framework for
+%simulating behavior of multi-layered materials, where each layer is a homogeneous base material.
+%Then we extend this simulation to materials in which each voxel is made of a different measured
+%material. Since this general simulation is expensive and requires path-tracing algorithms, we used
+%algorithms that are based on fast numerical integration of our low-dimensional representations
+%and the use of pre-computation, similar to pre-computed light transport approaches \cite{Sloan:2002}.
 \section{Contributions}
-The overall contribution of our work is a flexible framework for the construction of material assignment algorithms. Our second contribution is the ``Reducer Network'',  a graphical data structure which describes both the geometric partitioning and material parameterization of  a given object. We couple this with a ``Tuner Network'' which automatically tunes the parameters of the Reducer Network to produce a fabricable object. Finally we will describe our API which utilizes these structures to produce numerous material assignment algorithms from a set of primitive operations.
+The overall contribution of our work is a flexible framework for the construction of material assignment algorithms. Our second contribution is the ``Reducer Network'',  a graphical data structure which describes both the geometric partitioning and material parameterization of  a given object. We couple this with a ``Tuner Network'' which automatically tunes the parameters of the Reducer Network to produce a fabricable object. Finally we provide an extensible API which utilizes these structures to produce numerous material assignment algorithms from a set of primitive operations.
 \section{Methods}
-Below we will describe the key components of our framework and its associated API. 
+Below we will describe the key components of our framework and its associated API. We begin by describing the data structures that tie our framework together, the Reducer Network and the Tuner Network. We will then show how these two components interact to provide a compact graphical description of the material assignment problem. Finally we will show our basis set of components that we use to produce a wide-range of fabrication algorithms. 
 \subsection{The Reducer Network}
 Computing material assignments at output device resolution is computationally intractable. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z,\theta\right)$ to an input volumetric region. Lambda can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $\theta$. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph however, for material assignment problems this is neither required nor desired. 
 
@@ -393,6 +370,7 @@ Computing material assignments at output device resolution is computationally in
 %manager.setSimulator(femSimulator);
 %\end{verbatim}
 
+\note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results}
 We used various generators in our experiments.
 \subsection{Print Material Characterization and Measurement}
