@@ -155,11 +155,29 @@ Computing material assignments at output device resolution is computationally in
  See \textbf{Figure 1} for an example of a Reducer Network. \note{Desai: Make figure 1}.  
 
 \subsection{Tuners}
-\note{Desai: can you write this section, I don't know the details}
-\subsection{Tuning the Reducer Network}
+\note{Desai: can you write this section, I don't know the details.
+
+First pass: write down my ideas conversationally.
+}
+
+Tuners are interfaces between the Reducer Network and generic optimization algorithms.
+A tuner can be attached to a node in the reducer graph.
+When a tuner is attached to a node in the reducer graph, it can tune
+all the free parameters in the subtree rooted at that node.
+\subsection{Tuning a Reducer Node}
+The tuner queries its node for information about the search space such as
+number of free variables, variable types and bounds from the Reducer Network.
+In addition, the tuner will set up call-back functions for error computation.
 
 \subsection{Tuner Network}
 \note{Desai: also this section :) }
+In many fabrication problems, there are local dependencies between
+different sub-trees. One simplest example is surface texture dithering
+using error-diffusion. To account for such dependencies, we allow
+tuners to share information according to a graph structure.
+If two tuners share an edge, they can share information.
+The network structure is specified by users.
+
 %\section{System Description}
 %The software framework (shown in Figure~\ref{fig:framework}) is composed of 
 %a set of software
