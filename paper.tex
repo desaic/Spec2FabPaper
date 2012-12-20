@@ -314,7 +314,15 @@ vertices.
 \item Branch and bound (plus clustering of similar configurations)
 \item (Optional) reinforcement learning, deep neural networks...
 \end{enumerate}
-
+\subsection{Mapper and Reducer}
+In some problems such as matching texture colors or local mechanical properties,
+the material assignment decision at one location does not influence
+decisions made at other locations. The free variables of such problems
+are independent of each other. We can express such independency with 
+Mapper and Reducer classes. Mapper takes a problem and decomposes
+it a set of into independent sub-problems. Reducer
+combines solutions to the sub-problems and construct
+a complete solution to the origin problem.
 \section{Programming with Our API}
 A casual user mostly make function calls to an existing 
 manager to pass data and to run the optimization.
