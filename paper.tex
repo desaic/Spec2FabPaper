@@ -181,6 +181,21 @@ the error value of a variable assignment and the gradient. These queries are ans
 with call-back functions set up by the Tuner before executing the optimization subroutine.
 \subsection{Tuner Network}
 \note{Desai: also this section :) }
+For some fabrication problems, the best material to assign to a location
+depends on the material assignment at nearby locations. 
+Tuning the free variables as if they were independent usually yields
+unsatisfactory results.
+Therefore, we allow the tuner to share information according to 
+a user-specified graph structure. 
+This allows our framework to be interfaced with a wide range of existing
+graph based optimization and inference algorithms.
+For example, consider the Floyd–Steinberg dithering algorithm where the error of a pixel is distributed
+to $4$ of its neighbors (right, lower left, down and lower right). The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}.
+\begin{figure}[h]
+\includegraphics[scale=0.3]{figure/tuner.pdf}
+\caption{A sample Tuner Graph for the Floyd–Steinberg dithering algorithm.}
+\label{fig:tuner}
+\end{figure}
 %\section{System Description}
 %The software framework (shown in Figure~\ref{fig:framework}) is composed of 
 %a set of software
