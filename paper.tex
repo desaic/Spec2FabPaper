@@ -24,7 +24,7 @@
 \usepackage{subcaption}
 \usepackage[english]{babel}
 \usepackage{hyperref}
-\title{Spec2Fab: A  Graph-Based Reduction for Fabricating Fabrication Algorithms}
+\title{Spec2Fab: A  Graph-Based Framework for Fabricating Fabrication Algorithms}
 
 \author{}
 \pdfauthor{}
@@ -93,12 +93,12 @@ In this paper we focus on a fundamental problem in producing any such custom obj
 
 \section{Related Work} 
 Here we will review previous algorithms for solving the optimal material assignment problem . We divide this review into two broad categories, optimizing for desired optical properties and optimizing for desired mechanical properties. Finally we will briefly review work done on modular shader languages as they have influenced our current work.
-\subsection{Material Assignment for Desired Optical Properties}
+
 Optimizing and manufacturing objects with desired optical characteristics is a popular problem in computer graphics. Building objects which embed image in their caustics has been explored by Finch \textit{et al.} ~\shortcite{Finckh:2010} and Papas \textit{et al.}\shortcite{Marios:2011}. Optimization based approaches have also been employed to control the subsurface scattering of printed 3D models ~\cite{Hasan:2010}. These approaches have also been extended to optically decrypt hidden images ~\cite{Papas:2012}. Finally, optimal shadow casting surfaces have been produced which emulate a given set of input images ~\cite{Bermano:2012}.
-\subsection{Material Assignment for Desired Mechanical Properties}
-Fabricating objects with desire deformation characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a desired shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
-\subsection{Similarities between Methods}
-\autoref{tb:algorithms} shows the coordinate reduction method as well as the optimization scheme used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but rely on a small set of common components to achieve their goals. Thus one could hope to find a small set of components that can be tied together to synthesize existing and new methods. Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems. 
+
+Fabricating objects with desired deformation characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a desired shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
+
+\autoref{tb:algorithms} shows the coordinate reduction method as well as the optimization scheme used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but a set of common reduced coordinate components. These, in conjunction with (often off-the-shelf) optimization techniques form new material assignment algorithms. This suggests that one could find a small set of components that can be tied together to synthesize existing and new methods. Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems. 
 \begin{table*}[htp]
 \centering
 \caption{The goal type, reduction type and optimization used by previous fabrication works.}
@@ -107,7 +107,7 @@ Fabricating objects with desire deformation characteristics has been explored le
 \textbf{Paper} & \textbf{Goal} & \textbf{Reduced Coordinates}  & \textbf{Optimization} \\ 
 \hline
 ~\cite{Bickel:2010}& Deformation & Layered Materials  & Branch and Bound \\
-~\cite{Finckh:2010} & Optical (Caustics) & B-Spline Surface & ??? \\
+~\cite{Finckh:2010} & Optical (Caustics) & B-Spline Surface & SPSA \\
 ~\cite{Hasan:2010}& Optical (Subsurface) & Layered Materials & Branch and Bound\\ 
 ~\cite{Marios:2011} & Optical (Caustics) & Quadratic Surface Tiles & Simulated Annealing \\
 ~\cite{Bermano:2012} & Optical (Shadows) & Height Field & Custom/Simulated Annealing \\
@@ -155,29 +155,11 @@ Computing material assignments at output device resolution is computationally in
  See \textbf{Figure 1} for an example of a Reducer Network. \note{Desai: Make figure 1}.  
 
 \subsection{Tuners}
-\note{Desai: can you write this section, I don't know the details.
-
-First pass: write down my ideas conversationally.
-}
-
-Tuners are interfaces between the Reducer Network and generic optimization algorithms.
-A tuner can be attached to a node in the reducer graph.
-When a tuner is attached to a node in the reducer graph, it can tune
-all the free parameters in the subtree rooted at that node.
-\subsection{Tuning a Reducer Node}
-The tuner queries its node for information about the search space such as
-number of free variables, variable types and bounds from the Reducer Network.
-In addition, the tuner will set up call-back functions for error computation.
+\note{Desai: can you write this section, I don't know the details}
+\subsection{Tuning the Reducer Network}
 
 \subsection{Tuner Network}
 \note{Desai: also this section :) }
-In many fabrication problems, there are local dependencies between
-different sub-trees. One simplest example is surface texture dithering
-using error-diffusion. To account for such dependencies, we allow
-tuners to share information according to a graph structure.
-If two tuners share an edge, they can share information.
-The network structure is specified by users.
-
 %\section{System Description}
 %The software framework (shown in Figure~\ref{fig:framework}) is composed of 
 %a set of software
