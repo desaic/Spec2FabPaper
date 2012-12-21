@@ -467,31 +467,49 @@ Caustics 1 & Column, QuadLayerMaterial & & SA \\
 Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
 \hline
 Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
+\hline
 \end{tabular}
 \caption{Components we implemented and used in the experiments.}
 \label{tab:example}
 \end{table*}
 
 \subsection{Textured Model}
-We expand the set of printable colors by stacking translucent materials. We then applied
-dithering with our expanded colors.
+We expand the set of printable colors by stacking translucent materials.
+We then applied dithering with our expanded colors.
 Results are shown in Figure~\ref{fig:texture}
+\subsection{Subsurface Scattering}
+We replicated \cite{Hasan:2010} using our framework.
 
-%\subsection{Print Material Characterization and Measurement}
-%We used existing measurements of Objet print materials.
-\subsection{Subsurface Scattering, Deformation and Mass}
-Combining previous work on replicating
-subsurface scattering and deformation behavior, 
-we produced
-material with a particular
-look and deformation properties as shown in Figure~\ref{fig:deform}.
-We als considered one additional property:mass. 
-In this example, we
-tried to make the material as light as possible.
+\subsection{Refractive Caustics}
+We replicated two algorithms 
+presented in \cite{Marios:2011} and \cite{Finckh:2010} for computing goal-based caustics.
+The first version computes a 2D grid of micro-lenses. 
+The optimization permutes the location of the micro-lenses using SA to achieve a smooth surface.
+This algorithm doesn't require any simulation.
 
-We tried different combinations of generators in this experiment.
-We compared the performance of these different generator
-in terms of run-time and error.
+In the second algorithm , we used subdivision surfaces to represent the surface for simplicity.
+The original algorithm used B-spline surfaces.
+We used a generic caustics shader for height field 
+instead of a specialized shader for spline surfaces.
+Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image. 
+A picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
+\begin{figure}
+	\centering
+ 	\includegraphics[width=0.3\textwidth]{figure/caustic.jpg}
+\caption{Teapot with a caustic image.}
+\label{fig:caustic}
+\end{figure}
+
+\subsection{Subsurface Scattering and Deformation}
+We first replicated \cite{Bickel:2010} to 
+print materials with specified elasticity.
+We then combined it with subsurface scattering
+matching to print material that approximates
+both the subsurface scattering property and the deformation behavior.
+The result is shown in Figure~\ref{fig:deform}.
+%We tried different combinations of generators in this experiment.
+%We compared the performance of these different generator
+%in terms of run-time and error.
 \begin{enumerate}
 \item Spline for top layer, fine-grained voxelization for mid layer
 and a coarse grid for bottom layer.
@@ -542,23 +560,6 @@ optimizing subsurface-scattering and deformation properties
 iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 \label{fig:err}
 \end{figure}
-
-\subsection{Caustics for a Mesh}
-We demonstrate how to produce a 3D model with specific caustic shape under a particular lighting,
-similar to \cite{Finckh:2010}. The difference is that we optimize on an arbitrary 3D model,
-and we use a generic rendering package (NVidia optiX). 
-We represented the surface with a spline surface.
-Our algorithm took 6 hours to finish
-with $4000$ spline control points for the model and $600\times 600$ resolution for the caustic image. A 
-picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
-
-\begin{figure}
-	\centering
- 	\includegraphics[width=0.3\textwidth]{figure/caustic.jpg}
-\caption{Teapot with a caustic image.}
-\label{fig:caustic}
-\end{figure}
-
 
 \subsection{New Examples for Mechanical Properties}
 Ball bounce to certain height. We used a higher resolution
