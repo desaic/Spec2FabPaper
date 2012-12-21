@@ -431,22 +431,24 @@ for(ii=0;ii<column->resolution;ii++){
 \section{Results}
 We used various Reducer Nodes , simulation code and optimization algorithms in our experiments.
 A summary is listed in Table~\ref{tab:built-in}
-\begin{table}
-\centering %why
-\begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\begin{table*}
+\centering
+\begin{tabular}{p{4cm}|p{4cm}|p{4cm}}
 \hline 
 Reducer Node & simulator & optimization\\
 \hline 
-Geometry Node & optics & \multirow{4}{*}{Error Diffusion, SPSA}\\
- InputMesh, Stratum, Column&\\ \cline{1-2}
+Geometry Node & optics & \multirow{4}{4cm}{Error diffusion, SPSA, Branch and bound}\\
+ InputMesh, Stratum, Column&
+ Reflectance and transmittance, caustics\\ \cline{1-2}
 Material Node & deformation  \\
-Constant, Layered,
-QuadLayer, SubdivisionSufrace& \\
-\hline 
+Constant, Layered,QuadLayer, SubdivisionSufrace& 
+non-linear elasticity
+\\
+\hline
 \end{tabular}
 \caption{Components we implemented and used in the experiments.}
 \label{tab:built-in}
-\end{table}
+\end{table*}
 \subsection{Print Material Characterization and Measurement}
 \subsection{Subsurface Scattering, Deformation and Mass}
 Combining previous work on replicating
