@@ -190,11 +190,22 @@ a user-specified graph structure.
 This allows our framework to be interfaced with a wide range of existing
 graph based optimization and inference algorithms.
 For example, consider the Floyd–Steinberg dithering algorithm where the error of a pixel is distributed
-to $4$ of its neighbors (right, lower left, down and lower right). The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}.
+to $4$ of its neighbors (right, lower left, down and lower right). 
+The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}.
+The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}.
+A simplified view of the combined graph is shown in Figure~\ref{fig:combine}.
+Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm.
+
 \begin{figure}[h]
 \includegraphics[scale=0.3]{figure/tuner.pdf}
 \caption{A sample Tuner Graph for the Floyd–Steinberg dithering algorithm.}
 \label{fig:tuner}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.3]{figure/netAndTuner.pdf}
+\caption{Combined graph for the error diffusion example.}
+\label{fig:combine}
 \end{figure}
 %\section{System Description}
 %The software framework (shown in Figure~\ref{fig:framework}) is composed of 
