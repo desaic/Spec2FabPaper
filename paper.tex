@@ -68,7 +68,6 @@
         \caption{A textured mesh printed with different types of 3D printers.
         	(a)original model.(b)printed with our printer.(c)makerbot.
         	(d)objet}\label{teaser}
-	\label{fig:texture}
  }
 
 \maketitle
@@ -483,8 +482,13 @@ We replicated \cite{Hasan:2010} using our framework.
 \subsection{Refractive Caustics}
 We replicated two algorithms 
 presented in \cite{Marios:2011} and \cite{Finckh:2010} for computing goal-based caustics.
-The first version computes a 2D grid of micro-lenses. 
+The first version computes a 2D grid composed of micro-lenses. 
 The optimization permutes the location of the micro-lenses using SA to achieve a smooth surface.
+Each tuner is connected to its four neighbors.
+During the execution of an individual tuner, the optimization algorithm makes a randomized decision about
+ whether or not to swap its micro-lens with one of its neighbors.
+The tuners are run in sequence until some convergence criteria is hit.
+(it's also easy to implement a parallel version).
 This algorithm doesn't require any simulation.
 
 In the second algorithm , we used subdivision surfaces to represent the surface for simplicity.
