@@ -178,14 +178,27 @@ a stack of material layers.}
 \end{figure}
 
 \subsection{Tuners}
-We define tuners as an abstract interface between a Reducer Node and an optimization algorithm.  Specifically a tuner is comprised of an optimization scheme, an error metric and a goal. Each tuner is attached to a specific geometric node in the Reducer Network. It then acts to optimize, or tune, the free variables associated with the subtree rooted at this node. One can think of this as a self-tuning shader network.  This organizational structure allows us to easily optimize subdomains of our object using different tuners. We provide a mechanism for scheduling tuner execution thus allowing both serial and parallel processing. \note{Add a figure showing an example tuner}
+We define tuners as an abstract interface between a Reducer Node and an optimization algorithm.  Specifically a tuner is comprised of an optimization scheme, an error metric and a goal. Each tuner is attached to a specific geometric node in the Reducer Network. It then acts to optimize, or tune, the free variables associated with the subtree rooted at this node. One can think of this as a self-tuning shader network.  This organizational structure allows us to easily optimize subdomains of our object using different tuners. We provide a mechanism for scheduling tuner execution thus allowing both serial and parallel processing. 
 \subsection{Tuning the Reducer Network}
-A Tuner initializes an optimization by querying the search space from its Reducer Node.
+\autoref{fig:tuner0} shows a typical workflow for a tuner.
+\begin{figure}
+\includegraphics[width=0.4\textwidth]{figure/tuner0.png}
+\caption{Typical workflow for a Tuner.}
+\label{fig:tuner0}
+\end{figure}
+A Tuner initializes its optimization procedure by querying the search space from its Reducer Node.
 The Reducer Node computes the search space by traversing its sub-tree and collecting
 free variables. The search space specifies the number of free variables, the type of each free variable
-(discrete or continuous) and the bounds of these variables. With the search space specified, the Tuner's optimization subroutine executes. The optimization subroutine may ask for additional information such as
+(discrete or continuous) and the bounds of these variables. 
+With the search space specified, the Tuner's optimization subroutine executes.
+The optimization subroutine may ask for additional information such as
 the error value of a variable assignment and the gradient. These queries are answered
-with call-back functions set up by the Tuner before executing the optimization subroutine. We note that gradient computation of our material function $\lambda$ can be performed by efficiently traversing the Reducer Network.
+with call-back functions set up by the Tuner before executing the optimization subroutine. 
+The call-back function typically performs the following three steps:
+using Reducer Node to convert a variable assignment back to material assignment
+over the volume, running simulation with the new material assignment
+and computing errors given the simulated result.
+We note that gradient computation of our material function $\lambda$ can be performed by efficiently traversing the Reducer Network.
 \subsection{Tuner Network}
 For many fabrication problems, tuners cannot act in isolation. For instance,  occasionally the best material at a given point in space is dependent upon the material assignment at nearby locations.  Tuning the free variables as if they were independent usually yields unsatisfactory results. Therefore, we allow the tuner to share information according to a user-specified graph structure.  This allows our framework to be interfaced with a wide range of existing graph based optimization and inference algorithms. For example, consider the Floyd–Steinberg dithering algorithm where the error of a pixel is distributed
 to $4$ of its neighbors (right, lower left, down and lower right).  The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}. The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}. A simplified view of the combined graph is shown in Figure~\ref{fig:combine}. Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm. 
@@ -469,7 +482,7 @@ Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
 Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \hline
 \end{tabular}
-\caption{Fabricated results.}
+\caption{Example pipelines constructed for our experiments.}
 \label{tab:example}
 \end{table*}
 
@@ -491,12 +504,13 @@ Caustics &  \includegraphics[width=3cm]{figure/causticsTarget.png}& \includegrap
 & \includegraphics[width=3cm]{figure/caustics.png}\\
 \hline
 \end{tabular}
-\caption{Components we implemented and used in the experiments.}
+\caption{Fabricated objects.}
 \label{tab:result}
 \end{table*}
 
 \subsection{Textured Model}
-Here we design an algorithm to print textured models using a two-tone printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering with our expanded colors. \autoref{fig:texture} shows the results of this method.
+Here we design an algorithm to print textured models using a two-tone printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering with our expanded colors. 
+The first two rows in \autoref{tab:result} shows the results of this method.
 \subsection{Subsurface Scattering}
 We replicated \cite{Hasan:2010} using our framework. 
 
