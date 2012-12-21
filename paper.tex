@@ -74,8 +74,7 @@
 \maketitle
 
 \begin{abstract}
-
-
+Computational fabrication problems are often concerned with optimal material assignment. They attempt to compute a spatially varying material distribution that yields specified real-world behavior. In this paper we introduce Spec2Fab, a graph based framework that simplifies the design, development and implementation of these algorithms. We illustrate the utility of our framework by giving showing implemented fabrication algorithms as well as their manufactured results. 
 \end{abstract}
 
 \keywordlist
@@ -190,7 +189,7 @@ the error value of a variable assignment and the gradient. These queries are ans
 with call-back functions set up by the Tuner before executing the optimization subroutine. We note that gradient computation of our material function $\lambda$ can be performed by efficiently traversing the Reducer Network.
 \subsection{Tuner Network}
 For many fabrication problems, tuners cannot act in isolation. For instance,  occasionally the best material at a given point in space is dependent upon the material assignment at nearby locations.  Tuning the free variables as if they were independent usually yields unsatisfactory results. Therefore, we allow the tuner to share information according to a user-specified graph structure.  This allows our framework to be interfaced with a wide range of existing graph based optimization and inference algorithms. For example, consider the Floyd–Steinberg dithering algorithm where the error of a pixel is distributed
-to $4$ of its neighbors (right, lower left, down and lower right).  The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}. The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}. A simplified view of the combined graph is shown in Figure~\ref{fig:combine}. Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm.
+to $4$ of its neighbors (right, lower left, down and lower right).  The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}. The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}. A simplified view of the combined graph is shown in Figure~\ref{fig:combine}. Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm. 
 
 The Tuner graph can be constructed using the following pseudo-code
 %Can't figure out how to put it into a box
@@ -429,7 +428,7 @@ for(ii=0;ii<column->resolution;ii++){
 %\end{verbatim}
 
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
-\section{Results}
+\section{Results and Discussion}
 We used various generators in our experiments.
 \subsection{Print Material Characterization and Measurement}
 \subsection{Subsurface Scattering, Deformation and Mass}
@@ -595,9 +594,13 @@ Printer:objet, ours.
 
 More ideas:
 balancing bird with texture.
-\section{Possible Extension}
-UI to specify input deformation.
+%%\section{Possible Extension}
+%%UI to specify input deformation.
+\section{Limitations and Future Work}
+
+
 \section{Conclusion}
+We have presented Spec2Fab a graph based framework for building fabrication algorithms. By using the Reducer and Tuner Networks we reveal similarities between different fabrication algorithms allowing us to maximize component reuse. This both accelerates and eases implementation. We have also shown how using Spec2Fab facilitates the development and testing of new algorithms since Spec2Fab makes exploring the space of fabrication problems more efficient.
 \section*{Acknowledgements}
 
 \bibliographystyle{acmsiggraph}
