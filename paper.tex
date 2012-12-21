@@ -24,6 +24,7 @@
 \usepackage{subcaption}
 \usepackage[english]{babel}
 \usepackage{hyperref}
+\usepackage{program}
 \title{Spec2Fab: A  Graph-Based Framework for Fabricating Fabrication Algorithms}
 
 \author{}
@@ -152,7 +153,23 @@ Below we will describe the key components of our framework and its associated AP
 \subsection{The Reducer Network}
 Computing material assignments at output device resolution is computationally intractable. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z,\theta\right)$ to an input volumetric region. Lambda can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $\theta$. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph however, for material assignment problems this is neither required nor desired. 
 
- See \textbf{Figure \ref{fig:red1}} for an example of a Reducer Network. \note{Desai: Make figure 1}.  
+ See \textbf{Figure \ref{fig:red1}} for an example of a Reducer Network. \note{Desai: Make figure 1}.\\
+The sample Reducer Network can be constructed with the following pseudo-code.
+%There are may be a better place to put the pseudo code
+%\begin{program} can't figure out how to put it into a box
+\begin{verbatim}
+stratum->addInput(inputNode,0);
+column->addInput(stratum, 0);
+//add layered material to each column
+for(ii =0;ii<column->getNOutput();ii++){
+  layer = new LayeredMaterial(2);
+  layer->addInput(column,ii);
+}
+uniform = new UniformMaterial(0);
+uniform->addInput(stratum,1);
+\end{verbatim}
+%\caption{The Hello World! program in Java.}
+%\end{program}
 
 \begin{figure}[h]
 \includegraphics[scale=0.3]{figure/redNetwork.pdf}
@@ -195,6 +212,21 @@ The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}.
 The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}.
 A simplified view of the combined graph is shown in Figure~\ref{fig:combine}.
 Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm.
+
+The Tuner graph can be constructed using the following pseudo-code
+%Can't figure out how to put it into a box
+\begin{verbatim}
+for(ii=0;ii<column->resolution;ii++){
+  for(jj =0;jj<column->resolution;jj++){
+  //add 4 neighbors for each tuner
+      tuner[ii][jj].nbr.push_back(ii,jj+1);
+      tuner[ii][jj].nbr.push_back(ii+1,jj-1);
+      tuner[ii][jj].nbr.push_back(ii+1,jj);
+      tuner[ii][jj].nbr.push_back(ii+1,jj+1);    
+    }
+  }
+}
+\end{verbatim}
 
 \begin{figure}[h]
 \includegraphics[scale=0.3]{figure/tuner.pdf}
