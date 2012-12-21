@@ -507,16 +507,18 @@ We then combined it with subsurface scattering
 matching to print material that approximates
 both the subsurface scattering property and the deformation behavior.
 The result is shown in Figure~\ref{fig:deform}.
+The combination is done by simply alternating tuners for the two
+separate problems.
 %We tried different combinations of generators in this experiment.
 %We compared the performance of these different generator
 %in terms of run-time and error.
-\begin{enumerate}
-\item Spline for top layer, fine-grained voxelization for mid layer
-and a coarse grid for bottom layer.
-\item Voxels for top layer, splines for middle layer and a coarse
-bottom layer.
-\item Find-grained voxels for top layer and coarse grid for bottom layer.
-\end{enumerate}
+%\begin{enumerate}
+%\item Spline for top layer, fine-grained voxelization for mid layer
+%and a coarse grid for bottom layer.
+%\item Voxels for top layer, splines for middle layer and a coarse
+%bottom layer.
+%\item Find-grained voxels for top layer and coarse grid for bottom layer.
+%\end{enumerate}
 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
@@ -562,23 +564,24 @@ iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 \end{figure}
 
 \subsection{New Examples for Mechanical Properties}
-Ball bounce to certain height. We used a higher resolution
-grid for the out layer and very low resolution
-for the inner mesh.
+%Ball bounce to certain height. We used a higher resolution
+%grid for the out layer and very low resolution
+%for the inner mesh.
+%
+%A plot of bounce height after each iteration.
+%The height and desired height is plotted in Figure~\ref{fig:ball}
+%\begin{figure}
+%	\centering
+% 	\includegraphics[width=0.3\textwidth]{figure/ballHeight.pdf}
+%\caption{Simulated height per-iteration of a ball bouncing after free-falling at 1 meter height.
+%	Redline is desired height.}
+%\label{fig:ball}
+%\end{figure}
 
-A plot of bounce height after each iteration.
-The height and desired height is plotted in Figure~\ref{fig:ball}
-\begin{figure}
-	\centering
- 	\includegraphics[width=0.3\textwidth]{figure/ballHeight.pdf}
-\caption{Simulated height per-iteration of a ball bouncing after free-falling at 1 meter height.
-	Redline is desired height.}
-\label{fig:ball}
-\end{figure}
 
-
-A loaded die as shown in Figure~\ref{fig:die}. This example is interesting because
-a local change will have some global effect.
+A loaded die as shown in Figure~\ref{fig:die}. 
+This example is a showcase for a global optimization algorithm
+because a local change of material assignment will influence the global behavior.
 We used very high resolution grid for the surface to match texture
 of a die. The inner lay has only $3\times 3$ resolution.
 \begin{figure}
