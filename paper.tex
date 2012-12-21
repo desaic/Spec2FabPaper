@@ -88,16 +88,16 @@ showing implemented fabrication algorithms as well as their manufactured results
 
 
 \section{Introduction}
-Computational fabrication couples new digital manufacturing techniques with novel numerical algorithms to produce objects with remarkable physical characteristics. These methods are of great interest in computer graphics for two reasons: First, they provide us with  new class of output devices which can render into  real-life and second, they yield valuable insight into the accuracy of our numerical models of the world.  
+Computational fabrication couples new digital manufacturing techniques with novel numerical algorithms to produce objects with remarkable physical characteristics. These methods are of great interest in computer graphics for two reasons: First, they provide us with  a new class of output devices which can render into  real-life and second, they yield valuable insight into the accuracy of our numerical models of the world.  
 
-In this paper we focus on a fundamental problem in producing any such custom object:  optimal material assignment. Given an object one must find a spatially varying material distribution that satisfies some given criteria. The algorithms that solve these problems are often complicated to develop, implement, test and modify. We provide a new graph-based framework which decomposes such problems into a small set of constituent components alleviating the above issues as well as facilitating the development and testing of new algorithms. 
+In this paper we focus on a fundamental problem in producing any such custom object:  optimal material assignment. Given an object one must find a spatially varying material distribution that satisfies some given criteria. The algorithms that solve these problems are often complicated to develop, implement, test and modify. We provide a new graph-based framework which decomposes such problems into a small set of constituent components alleviating the above issues as well as facilitating the development and testing of new methods. 
 
 \section{Related Work} 
 Here we will review previous algorithms for solving the optimal material assignment problem . We divide this review into two broad categories, optimizing for desired optical properties and optimizing for desired mechanical properties. We conclude by commenting on the similarities between these approaches.
 
 Optimizing and manufacturing objects with desired optical characteristics is a popular problem in computer graphics. Building objects which embed images in their caustics has been explored by Finch \textit{et al.} ~\shortcite{Finckh:2010} and Papas \textit{et al.}\shortcite{Marios:2011}. Optimization based approaches have also been employed to control the subsurface scattering of printed 3D models ~\cite{Hasan:2010}. These methods have also been extended to optically decrypt hidden images ~\cite{Papas:2012}. Finally, optimal shadow casting surfaces have been produced which emulate a given set of input images ~\cite{Bermano:2012}.
 
-Fabricating objects with desired deformation characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a desired shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
+Fabricating objects with desired mechanical characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a prescribed shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
 
 \autoref{tb:algorithms} shows the coordinate reduction methods as well as the optimization schemes used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but a set of common reduced coordinate components. These, in conjunction with (often off-the-shelf) optimization techniques form new material assignment algorithms. This suggests that one could find a small set of components that can be tied together to synthesize existing and new methods. Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems. 
 \begin{table*}[htp]
@@ -149,10 +149,10 @@ Fabricating objects with desired deformation characteristics has been explored l
 \section{Contributions}
 The overall contribution of our work is a flexible framework for the construction of material assignment algorithms. Our second contribution is the ``Reducer Network'',  a graphical data structure which describes both the geometric partitioning and material parameterization of  a given object. We couple this with a ``Tuner Network'' which automatically tunes the parameters of the Reducer Network to produce a fabricable object. Ultimately  we use these data structures to build an extensible, easy to use API which can produce numerous material assignment algorithms from a set of primitive operations.
 \section{Methods}
-Below we will describe the key components of our framework and its associated API. We begin by describing the data structures that tie our framework together, the Reducer Network and the Tuner Network. We will then show how these two components interact to provide a compact graphical description of the material assignment problem. Finally we will show our basis set of components that we use to produce a wide-range of fabrication algorithms. 
+Below we will describe the key components of our framework and its associated API. We begin by describing the data structures that tie our framework together, the Reducer Network and the Tuner Network. We will then show how these two components interact to provide a compact graphical description of the material assignment problem. Finally, we will detail the basis set of components that we use to produce a wide-range of fabrication algorithms. 
 \subsection{The Reducer Network}
 Computing material assignments at output device resolution is computationally inefficient. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z, \boldsymbol{\theta}\right)$ to an input volumetric region. 
-$\lambda$ can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $ \boldsymbol{\theta}$. We allow our material assignment nodes to assign a void material to regions of the mesh. This allows us to treat surface displacements and material assignments in a unified fashion. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph, however, for material assignment problems this is neither required nor desired. 
+$\lambda$ can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $ \boldsymbol{\theta}$. We allow our material assignment nodes to assign a void material to regions of the mesh. This allows us to treat surface displacements and material assignments in a unified fashion. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions of the object, however, for material assignment problems this is neither required nor desired. 
 
 \autoref{fig:red1} shows an example Reducer Network which can be constructed with the following pseudo-code.
 %There are may be a better place to put the pseudo code
@@ -183,7 +183,7 @@ a stack of material layers.}
 \subsection{Tuners}
 We define tuners as an abstract interface between a Reducer Node and an optimization algorithm.  Specifically a tuner is comprised of an optimization scheme, an error metric and a goal. Each tuner is attached to a specific geometric node in the Reducer Network. It then acts to optimize, or tune, the free variables associated with the subtree rooted at this node. One can think of this as a self-tuning shader network.  This organizational structure allows us to easily optimize subdomains of our object using different tuners. We provide a mechanism for scheduling tuner execution thus allowing both serial and parallel processing. 
 \subsection{Tuning the Reducer Network}
-\autoref{fig:tuner0} shows a typical workflow for a tuner.
+\autoref{fig:tuner0} shows a typical workflow for the tuner.
 \begin{figure}
 \includegraphics[width=0.4\textwidth]{figure/tuner0.png}
 \caption{Typical workflow for a Tuner.}
@@ -199,7 +199,7 @@ the error value of a variable assignment and the gradient. These queries are ans
 with call-back functions set up by the Tuner before executing the optimization subroutine. 
 The call-back function typically performs the following three steps:
 using Reducer Node to convert a variable assignment back to material assignment
-function $\lambda$, running simulation with the new material assignment
+function $\lambda$, running a simulation with the new material assignment
 and computing errors given the simulated result.
 We note that our material function $\lambda$ can 
 be efficiently evaluated by traversing the Reducer Network.
@@ -207,7 +207,7 @@ be efficiently evaluated by traversing the Reducer Network.
 %We note that gradient computation of our material function $\lambda$ can also 
 %be performed by efficiently traversing the Reducer Network.
 \subsection{Tuner Network}
-For many fabrication problems, tuners cannot act in isolation. For instance,  occasionally the best material at a given point in space is dependent upon the material assignment at nearby locations.  Tuning the free variables as if they were independent usually yields unsatisfactory results. Therefore, we allow the tuners to share information according to a user-specified graph structure.  This allows our framework to be interfaced with a wide range of existing graph based optimization and inference algorithms. For example, consider the Floyd–Steinberg dithering algorithm where the error of a pixel is distributed
+For many fabrication problems, tuners cannot act in isolation. For instance,  occasionally the best material at a given point in space is dependent upon the material assignment at nearby locations.  Tuning the free variables as if they were independent usually yields unsatisfactory results. Therefore, we allow the tuners to share information according to a user-specified graph structure.  This allows our framework to be interfaced with a wide range of existing graph based optimization and inference algorithms. For example, consider the Floyd–Steinberg dithering algorithm in which the error at a given pixel is distributed
 to $4$ of its neighbors (right, lower left, down and lower right).  The graph structure of this algorithm is illustrated in Figure~\ref{fig:tuner}. The tuner is combined with the Reducer Network in Figure~\ref{fig:red1}. A simplified view of the combined graph is shown in Figure~\ref{fig:combine}. Executing each tuner in order is equivalent to running the Floyd–Steinberg dithering algorithm. 
 
 The Tuner graph can be constructed using the following pseudo-code
@@ -446,7 +446,7 @@ for(ii=0;ii<column->resolution;ii++){
 %manager.setSimulator(femSimulator);
 %\end{verbatim}
 
-\note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
+%\note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results and Discussion}
 Table~\ref{tab:built-in} shows a list of nodes implemented in our framework. With this set of nodes we can reproduce all work previously discussed. This validates our assertion, that the space of fabrication  algorithms can be spanned effectively using the Reducer and Tuner networks. Secondly it illustrates how we can leverage component reuse to quickly create such algorithms.\autoref{tab:example} lists the components of the framework used to recreate each example.
 
@@ -516,7 +516,7 @@ Caustics &  \includegraphics[width=3cm]{figure/causticsTarget.png}& \includegrap
 \end{table*}
 
 \subsection{Textured Model}
-Here we design an algorithm to print textured models using a two-tone printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering with our expanded colors. 
+Here we design an algorithm to print textured models using a two material printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering using this expanded gamut. 
 The first two rows in \autoref{tab:result} shows the results of this method.
 \subsection{Subsurface Scattering}
 We replicated \cite{Hasan:2010} using our framework. 
@@ -529,12 +529,12 @@ Each tuner is connected to its four neighbors.
 During the execution of an individual tuner, the optimization algorithm makes a randomized decision about
  whether or not to swap its micro-lens with one of its neighbors.
 The tuners are run in sequence until some convergence criteria is met.
-Of note is the fact that this algorithm does not quire a simulation algorithm. 
-Despite this it is still implementable within our framework. 
+Of note is the fact that this method does not require a simulation algorithm. 
+Despite this, it is still implementable within our framework. 
 
 In the second algorithm, we use subdivision surfaces to represent a smooth caustic surface. 
 This is in contrast to the potentially discontinuous surface in the method above. 
-The original algorithm used B-spline surfaces however we have replaced these with a subdivision surface. 
+The original algorithm used a B-spline surface representation, however we have replaced this with a subdivision surface. 
 We also replace the specialized renderer from the original publication with a generic, fast caustics rendering technique ~\cite{Yuksel:2009}. Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image.  A picture of our printed result under desired lighting is shown in \autoref{fig:caustic}.
 \begin{figure}
 	\centering
@@ -676,7 +676,7 @@ iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 
 
 \section{Conclusion}
-We have presented Spec2Fab a graph based framework for building fabrication algorithms. By using the Reducer and Tuner Networks we reveal similarities between different fabrication algorithms allowing us to maximize component reuse. This both accelerates and eases implementation. We have also shown how using Spec2Fab facilitates the development and testing of new algorithms since Spec2Fab makes exploring the space of fabrication problems more efficient.
+We have presented Spec2Fab a graph based framework for building fabrication algorithms. By using the Reducer and Tuner Networks we reveal similarities between different fabrication algorithms allowing us to maximize component reuse. This both accelerates and eases implementation. We have also shown that Spec2Fab facilitates the development and testing of new algorithms since Spec2Fab makes exploring the space of fabrication problems more efficient.
 \section*{Acknowledgements}
 
 \bibliographystyle{acmsiggraph}
