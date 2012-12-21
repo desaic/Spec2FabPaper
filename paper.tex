@@ -429,6 +429,10 @@ for(ii=0;ii<column->resolution;ii++){
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results and Discussion}
 Table~\ref{tab:built-in} shows a list of nodes implemented in our framework. With this set of nodes we can reproduce all work previously discussed. This validates our assertion, that the space of fabrication  algorithms can be spanned effectively using the Reducer and Tuner networks. Secondly it illustrates how we can leverage component reuse to quickly create such algorithms.\autoref{tab:example} lists the components of the framework used to recreate each example.
+
+For each example, we show the target, the simulated output, and the fabricated result in Figure~\ref{tab:result}.
+
+
 \begin{table*}
 \centering
 \begin{tabular}{lc}
@@ -454,6 +458,22 @@ SubdivSurfMateral & Like LayeredMaterial, but the materials are separated by a s
 
 \begin{table*}
 \centering
+\begin{tabular}{|l|l|l|l|}
+\hline 
+\textbf{Example} & \textbf{Target} & \textbf{Simulation} & \textbf{Printed Result}\\
+\hline 
+Texture&  \includegraphics[width=3cm]{figure/globeTarget.png}& \includegraphics[width=3cm]{figure/globeSim.png}
+& \includegraphics[width=3cm]{figure/globe.png}\\
+&  \includegraphics[width=3cm]{figure/mapTarget.png}& \includegraphics[width=3cm]{figure/mapSim.png}
+& \includegraphics[width=3cm]{figure/map.png}\\
+\hline
+\end{tabular}
+\caption{Components we implemented and used in the experiments.}
+\label{tab:example}
+\end{table*}
+
+\begin{table*}
+\centering
 \begin{tabular}{llll}  %error metric is not interesting
 \hline 
 \textbf{Example} & \textbf{Reducer Nodes} & \textbf{Simulator} & \textbf{Optimization}\\
@@ -465,8 +485,8 @@ Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
 Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \hline
 \end{tabular}
-\caption{Components we implemented and used in the experiments.}
-\label{tab:example}
+\caption{Fabricated results.}
+\label{tab:result}
 \end{table*}
 
 \subsection{Textured Model}
