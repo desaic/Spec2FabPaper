@@ -24,7 +24,7 @@
 \usepackage{subcaption}
 \usepackage[english]{babel}
 \usepackage{hyperref}
-\usepackage{program}
+\usepackage{multirow}
 \title{Spec2Fab: A  Graph-Based Framework for Fabricating Fabrication Algorithms}
 
 \author{}
@@ -451,7 +451,25 @@ for(ii=0;ii<column->resolution;ii++){
 
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results}
-We used various generators in our experiments.
+We used various Reducer Nodes , simulation code and optimization algorithms in our experiments.
+A summary is listed in Table~\ref{tab:built-in}
+\begin{table}
+\centering %why
+\begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\hline 
+Reducer Node & simulator & optimization\\
+\hline 
+Geometry Node & optics & \multirow{4}{*}{Error Diffusion, SPSA}\\
+ InputMesh, Stratum, Column&\\ \cline{1-2}
+Material Node & deformation  \\
+Constant, Layered,
+QuadLayer, SubdivisionSufrace& \\
+\hline 
+\end{tabular}
+\caption{Components we implemented and used in the experiments.}
+\label{tab:built-in}
+\end{table}
+
 \subsection{Print Material Characterization and Measurement}
 \subsection{Subsurface Scattering, Deformation and Mass}
 Combining previous work on replicating
