@@ -428,24 +428,25 @@ for(ii=0;ii<column->resolution;ii++){
 %\end{verbatim}
 
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
-\section{Results}
-We used various Reducer Nodes , simulator and optimization algorithms in our experiments.
-A summary of primitive components is listed in Table~\ref{tab:built-in}.
-Table~\ref{tab:example} lists for each example, the components involved.
+\section{Results and Discussion}
+Table~\ref{tab:built-in} shows a list of nodes implemented in our framework. With this set of nodes we can reproduce all previous work previously discussed. This validates our assertion, that the space of fabrication  algorithms can be spanned effectively using the Reducer and Tuner networks. Secondly it illustrates how we can leverage component reuse to quickly create such algorithms. Table~\ref{tab:example} lists the components of the framework used to recreate each example.
 \begin{table*}
 \centering
-\begin{tabular}{p{4cm}|p{4cm}|p{4cm}}
+\begin{tabular}{lc}
 \hline 
-Reducer Node & simulator & optimization\\
-\hline 
-Geometry Node & optics & \multirow{4}{4cm}{Error diffusion, SPSA, Branch and bound}\\
- InputMesh, Stratum, Column&
- Reflectance and transmittance, caustics\\ \cline{1-2}
-Material Node & deformation  \\
-ConstantMaterial, 
-LayeredMaterial, QuadLayerMaterial, SubdivSurfMaterial & 
-non-linear elasticity
-\\
+\textbf{Reducer Node} & \textbf{Description} \\
+Geometry Nodes &\\
+\hline
+InputMesh & Loads shape to which materials will be assigned\\\
+Stratum & Divides an input volume into an outer layer of given thickness and an interior blob\\
+Column & Divides an input volume into a number of columns\\
+\hline
+Material Nodes &\\
+\hline
+ConstantMaterial & Assigns a constant material to an input volume \\
+LayeredMaterial &  Assigns a layered set of materials to an input volume \\
+QuadLayerMaterial & ??? \\
+SubdivSurfMateral & ??? \\
 \hline
 \end{tabular}
 \caption{Components we implemented and used in the experiments.}
@@ -454,18 +455,14 @@ non-linear elasticity
 
 \begin{table*}
 \centering
-\begin{tabular}{p{4cm}|p{4cm}|p{4cm}|p{4cm}}  %error metric is not interesting
+\begin{tabular}{llll}  %error metric is not interesting
 \hline 
-Example & Reducer Nodes & simulator & optimization\\
+\textbf{Example} & \textbf{Reducer Nodes} & \textbf{Simulator} & \textbf{Optimization}\\
 \hline 
 Texture& Stratum, Column, LayeredMaterial & reflectance & Error diffusion \\
-\hline
 Subsurface scattering& Stratum, Column, LayeredMaterial & reflectance , transmittance & Branch and bound\\
-\hline 
 Caustics 1 & Column, QuadLayerMaterial & & SA \\
-\hline 
 Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
-\hline
 Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \hline
 \end{tabular}
@@ -474,25 +471,15 @@ Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \end{table*}
 
 \subsection{Textured Model}
-We expand the set of printable colors by stacking translucent materials.
-We then applied dithering with our expanded colors.
-Results are shown in Figure~\ref{fig:texture}
+Here we design an algorithm to print textured models using a two-tone printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering with our expanded colors. \autoref{fig:texture} shows the results of this method.
 \subsection{Subsurface Scattering}
-We replicated \cite{Hasan:2010} using our framework.
+We replicated \cite{Hasan:2010} using our framework. 
 
 \subsection{Refractive Caustics}
-We replicated two algorithms 
-presented in \cite{Marios:2011} and \cite{Finckh:2010} for computing goal-based caustics.
-The first version computes a 2D grid of micro-lenses. 
-The optimization permutes the location of the micro-lenses using SA to achieve a smooth surface.
-This algorithm doesn't require any simulation.
+We have also implemented two algorithms for computing goal-based caustics;  ~\cite{Marios:2011} and ~\cite{Finckh:2010}.
+The first version of this algorithm computes  a set of micro-lenses which produce the desired caustic image. The optimization applies simulated annealing in order to permute the location of these micro-lenses in order to achieve a smooth surface. Of note is the fact that this algorithm does not quire a simulation algorithm. Despite this it is still implementable within our framework. 
 
-In the second algorithm , we used subdivision surfaces to represent the surface for simplicity.
-The original algorithm used B-spline surfaces.
-We used a generic caustics shader for height field 
-instead of a specialized shader for spline surfaces.
-Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image. 
-A picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
+In the second algorithm , we use subdivision surfaces to represent a smooth caustic caustic surface. This is in contrast to the potentially discontinuous surface in the method above. The original algorithm used B-spline surfaces. We also replace the specialized renderer from the original publication with a generic, fast caustics rendering technique ~\cite{Yuksel:2009}. Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image.  A picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
 \begin{figure}
 	\centering
  	\includegraphics[width=0.3\textwidth]{figure/caustic.jpg}
@@ -501,14 +488,9 @@ A picture of our printed result under desired lighting is shown in Figure~\ref{f
 \end{figure}
 
 \subsection{Subsurface Scattering and Deformation}
-We first replicated \cite{Bickel:2010} to 
-print materials with specified elasticity.
-We then combined it with subsurface scattering
-matching to print material that approximates
-both the subsurface scattering property and the deformation behavior.
-The result is shown in Figure~\ref{fig:deform}.
-The combination is done by simply alternating tuners for the two
-separate problems.
+We first replicated \cite{Bickel:2010} to print materials with specified elasticity. We then combined it with subsurface scattering
+matching to print material that approximates both the subsurface scattering property and the deformation behavior. The result is shown in Figure~\ref{fig:deform}. In our case we perform coupling at the tuner level by alternating tuner execution for the two
+separate problems. This shows how our framework can facilitates the creation of new fabrication problems by allowing easy reuse of previous work and also providing a ``playground'' in which one can explore different computational approaches.
 %We tried different combinations of generators in this experiment.
 %We compared the performance of these different generator
 %in terms of run-time and error.
