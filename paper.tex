@@ -429,8 +429,9 @@ for(ii=0;ii<column->resolution;ii++){
 
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results}
-We used various Reducer Nodes , simulation code and optimization algorithms in our experiments.
-A summary is listed in Table~\ref{tab:built-in}
+We used various Reducer Nodes , simulator and optimization algorithms in our experiments.
+A summary of primitive components is listed in Table~\ref{tab:built-in}.
+Table~\ref{tab:example} lists for each example, the components involved.
 \begin{table*}
 \centering
 \begin{tabular}{p{4cm}|p{4cm}|p{4cm}}
@@ -441,7 +442,8 @@ Geometry Node & optics & \multirow{4}{4cm}{Error diffusion, SPSA, Branch and bou
  InputMesh, Stratum, Column&
  Reflectance and transmittance, caustics\\ \cline{1-2}
 Material Node & deformation  \\
-Constant, Layered,QuadLayer, SubdivisionSufrace& 
+ConstantMaterial, 
+LayeredMaterial, QuadLayerMaterial, SubdivSurfMaterial & 
 non-linear elasticity
 \\
 \hline
@@ -449,7 +451,34 @@ non-linear elasticity
 \caption{Components we implemented and used in the experiments.}
 \label{tab:built-in}
 \end{table*}
-\subsection{Print Material Characterization and Measurement}
+
+\begin{table*}
+\centering
+\begin{tabular}{p{4cm}|p{4cm}|p{4cm}|p{4cm}}  %error metric is not interesting
+\hline 
+Example & Reducer Nodes & simulator & optimization\\
+\hline 
+Texture& Stratum, Column, LayeredMaterial & reflectance & Error diffusion \\
+\hline
+Subsurface scattering& Stratum, Column, LayeredMaterial & reflectance , transmittance & Branch and bound\\
+\hline 
+Caustics 1 & Column, QuadLayerMaterial & & SA \\
+\hline 
+Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
+\hline
+Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
+\end{tabular}
+\caption{Components we implemented and used in the experiments.}
+\label{tab:example}
+\end{table*}
+
+\subsection{Textured Model}
+We expand the set of printable colors by stacking translucent materials. We then applied
+dithering with our expanded colors.
+Results are shown in Figure~\ref{fig:texture}
+
+%\subsection{Print Material Characterization and Measurement}
+%We used existing measurements of Objet print materials.
 \subsection{Subsurface Scattering, Deformation and Mass}
 Combining previous work on replicating
 subsurface scattering and deformation behavior, 
@@ -530,21 +559,7 @@ picture of our printed result under desired lighting is shown in Figure~\ref{fig
 \label{fig:caustic}
 \end{figure}
 
-\subsection{Textured Model}
-Input: a textured 3D model and
-measured Albedo of print material.
 
-Output: (Probably gray-scale) Material arranged for different printers in different formats: STL, fable,Gcode.
-
-Printers: Our printer, Makerbot, Objet, maybe Zcorp.
-
-When printing texture, only the outer layer matters. We used 
-a composition of two generators: a very high resolution grid
-for the outer layer and a uniform material for the inside.
-
-We expand the set of printable colors by stacking translucent materials. We then applied
-dithering with our expanded colors.
-Results are shown in Figure~\ref{fig:texture}
 \subsection{New Examples for Mechanical Properties}
 Ball bounce to certain height. We used a higher resolution
 grid for the out layer and very low resolution
