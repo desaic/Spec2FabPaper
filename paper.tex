@@ -149,7 +149,7 @@ The overall contribution of our work is a flexible framework for the constructio
 \section{Methods}
 Below we will describe the key components of our framework and its associated API. We begin by describing the data structures that tie our framework together, the Reducer Network and the Tuner Network. We will then show how these two components interact to provide a compact graphical description of the material assignment problem. Finally we will show our basis set of components that we use to produce a wide-range of fabrication algorithms. 
 \subsection{The Reducer Network}
-Computing material assignments at output device resolution is computationally inefficient. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z,\theta\right)$ to an input volumetric region. Lambda can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $\theta$. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph, however, for material assignment problems this is neither required nor desired. 
+Computing material assignments at output device resolution is computationally inefficient. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z,\theta\right)$ to an input volumetric region. Lambda can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $\theta$. We allow our material assignment nodes to assign a void material to regions of the mesh. This allows us to treat surface displacements and material assignments in a unified fashion. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions in the graph, however, for material assignment problems this is neither required nor desired. 
 
 \autoref{fig:red1} shows an example Reducer Network which can be constructed with the following pseudo-code.
 %There are may be a better place to put the pseudo code
@@ -427,24 +427,25 @@ for(ii=0;ii<column->resolution;ii++){
 %\end{verbatim}
 
 \note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
-\section{Results}
-We used various Reducer Nodes , simulator and optimization algorithms in our experiments.
-A summary of primitive components is listed in Table~\ref{tab:built-in}.
-Table~\ref{tab:example} lists for each example, the components involved.
+\section{Results and Discussion}
+Table~\ref{tab:built-in} shows a list of nodes implemented in our framework. With this set of nodes we can reproduce all work previously discussed. This validates our assertion, that the space of fabrication  algorithms can be spanned effectively using the Reducer and Tuner networks. Secondly it illustrates how we can leverage component reuse to quickly create such algorithms.\autoref{tab:example} lists the components of the framework used to recreate each example.
 \begin{table*}
 \centering
-\begin{tabular}{p{4cm}|p{4cm}|p{4cm}}
+\begin{tabular}{lc}
 \hline 
-Reducer Node & simulator & optimization\\
-\hline 
-Geometry Node & optics & \multirow{4}{4cm}{Error diffusion, SPSA, Branch and bound}\\
- InputMesh, Stratum, Column&
- Reflectance and transmittance, caustics\\ \cline{1-2}
-Material Node & deformation  \\
-ConstantMaterial, 
-LayeredMaterial, QuadLayerMaterial, SubdivSurfMaterial & 
-non-linear elasticity
-\\
+\textbf{Reducer Node} & \textbf{Description} \\
+Geometry Nodes &\\
+\hline
+InputMesh & Loads shape to which materials will be assigned\\\
+Stratum & Divides an input volume into an outer layer of given thickness and an interior blob\\
+Column & Divides an input volume into a number of columns\\
+\hline
+Material Nodes &\\
+\hline
+ConstantMaterial & Assigns a constant material to an input volume \\
+LayeredMaterial &  Assigns a layered set of materials to an input volume \\
+QuadLayerMaterial & ??? \\
+SubdivSurfMateral & ??? \\
 \hline
 \end{tabular}
 \caption{Components we implemented and used in the experiments.}
@@ -453,18 +454,14 @@ non-linear elasticity
 
 \begin{table*}
 \centering
-\begin{tabular}{p{4cm}|p{4cm}|p{4cm}|p{4cm}}  %error metric is not interesting
+\begin{tabular}{llll}  %error metric is not interesting
 \hline 
-Example & Reducer Nodes & simulator & optimization\\
+\textbf{Example} & \textbf{Reducer Nodes} & \textbf{Simulator} & \textbf{Optimization}\\
 \hline 
 Texture& Stratum, Column, LayeredMaterial & reflectance & Error diffusion \\
-\hline
 Subsurface scattering& Stratum, Column, LayeredMaterial & reflectance , transmittance & Branch and bound\\
-\hline 
 Caustics 1 & Column, QuadLayerMaterial & & SA \\
-\hline 
 Caustics 2 & Column, SubdivSurfMaterial & caustics & SPSA \\
-\hline
 Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \hline
 \end{tabular}
@@ -473,30 +470,25 @@ Deformation & Column, LayeredMaterial& elasticity & Branch and bound\\
 \end{table*}
 
 \subsection{Textured Model}
-We expand the set of printable colors by stacking translucent materials.
-We then applied dithering with our expanded colors.
-Results are shown in Figure~\ref{fig:texture}
+Here we design an algorithm to print textured models using a two-tone printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering with our expanded colors. \autoref{fig:texture} shows the results of this method.
 \subsection{Subsurface Scattering}
-We replicated \cite{Hasan:2010} using our framework.
+We replicated \cite{Hasan:2010} using our framework. 
 
 \subsection{Refractive Caustics}
-We replicated two algorithms 
-presented in \cite{Marios:2011} and \cite{Finckh:2010} for computing goal-based caustics.
-The first version computes a 2D grid composed of micro-lenses. 
-The optimization permutes the location of the micro-lenses using SA to achieve a smooth surface.
+We have also implemented two algorithms for computing goal-based caustics;  ~\cite{Marios:2011} and ~\cite{Finckh:2010}.
+The first version of this algorithm computes  a set of micro-lenses which produce the desired caustic image. 
+The optimization applies simulated annealing to permute the location of these micro-lenses in order to construct a smooth surface.
 Each tuner is connected to its four neighbors.
 During the execution of an individual tuner, the optimization algorithm makes a randomized decision about
  whether or not to swap its micro-lens with one of its neighbors.
-The tuners are run in sequence until some convergence criteria is hit.
-(it's also easy to implement a parallel version).
-This algorithm doesn't require any simulation.
+The tuners are run in sequence until some convergence criteria is met.
+Of note is the fact that this algorithm does not quire a simulation algorithm. 
+Despite this it is still implementable within our framework. 
 
-In the second algorithm , we used subdivision surfaces to represent the surface for simplicity.
-The original algorithm used B-spline surfaces.
-We used a generic caustics shader for height field 
-instead of a specialized shader for spline surfaces.
-Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image. 
-A picture of our printed result under desired lighting is shown in Figure~\ref{fig:caustic}.
+In the second algorithm, we use subdivision surfaces to represent a smooth caustic surface. 
+This is in contrast to the potentially discontinuous surface in the method above. 
+The original algorithm used B-spline surfaces however we have replaced these with a subdivision surface. 
+We also replace the specialized renderer from the original publication with a generic, fast caustics rendering technique ~\cite{Yuksel:2009}. Our algorithm took 6 hours to finish with $4000$ control points for the model and $600\times 600$ resolution for the caustic image.  A picture of our printed result under desired lighting is shown in \autoref{fig:caustic}.
 \begin{figure}
 	\centering
  	\includegraphics[width=0.3\textwidth]{figure/caustic.jpg}
@@ -505,14 +497,11 @@ A picture of our printed result under desired lighting is shown in Figure~\ref{f
 \end{figure}
 
 \subsection{Subsurface Scattering and Deformation}
-We first replicated \cite{Bickel:2010} to 
-print materials with specified elasticity.
-We then combined it with subsurface scattering
-matching to print material that approximates
-both the subsurface scattering property and the deformation behavior.
-The result is shown in Figure~\ref{fig:deform}.
-The combination is done by simply alternating tuners for the two
-separate problems.
+We first replicated \cite{Bickel:2010} to print materials with specified elasticity. We then combined it with subsurface scattering
+matching to print material that approximates both the subsurface scattering property and the deformation behavior. The result is shown in Figure~\ref{fig:deform}. In our case we perform coupling at the tuner level by alternating tuner execution for the two
+separate problems. Here we see that our framework facilitates the creation of new fabrication problems by allowing easy reuse of previous work and also providing a ``playground'' in which one can explore different computational approaches. \autoref{fig:err} contains two error plots showing that the subsurface scattering and deformation errors decrease after each tuner iteration.
+
+
 %We tried different combinations of generators in this experiment.
 %We compared the performance of these different generator
 %in terms of run-time and error.
@@ -544,8 +533,6 @@ with the same looking and desired deformation.}
 \label{fig:deform}
 \end{figure}
 
-Two error plots showing subsurface scattering and deformation errors decrease
-after each iteration in Figure~\ref{fig:err}.
 
 \begin{figure}
 \begin{subfigure}[b]{0.3\textwidth}
@@ -567,77 +554,77 @@ iteratively. (a)Subsurface scattering errors. (b)Deformation errors.}
 \label{fig:err}
 \end{figure}
 
-\subsection{New Examples for Mechanical Properties}
-%Ball bounce to certain height. We used a higher resolution
-%grid for the out layer and very low resolution
-%for the inner mesh.
+%\subsection{New Examples for Mechanical Properties}
+%%Ball bounce to certain height. We used a higher resolution
+%%grid for the out layer and very low resolution
+%%for the inner mesh.
+%%
+%%A plot of bounce height after each iteration.
+%%The height and desired height is plotted in Figure~\ref{fig:ball}
+%%\begin{figure}
+%%	\centering
+%% 	\includegraphics[width=0.3\textwidth]{figure/ballHeight.pdf}
+%%\caption{Simulated height per-iteration of a ball bouncing after free-falling at 1 meter height.
+%%	Redline is desired height.}
+%%\label{fig:ball}
+%%\end{figure}
 %
-%A plot of bounce height after each iteration.
-%The height and desired height is plotted in Figure~\ref{fig:ball}
+%
+%A loaded die as shown in Figure~\ref{fig:die}. 
+%This example is a showcase for a global optimization algorithm
+%because a local change of material assignment will influence the global behavior.
+%We used very high resolution grid for the surface to match texture
+%of a die. The inner lay has only $3\times 3$ resolution.
 %\begin{figure}
 %	\centering
-% 	\includegraphics[width=0.3\textwidth]{figure/ballHeight.pdf}
-%\caption{Simulated height per-iteration of a ball bouncing after free-falling at 1 meter height.
-%	Redline is desired height.}
-%\label{fig:ball}
+% 	\includegraphics[width=0.25\textwidth]{figure/die.png}
+%\caption{A printed loaded die}
+%\label{fig:die}
 %\end{figure}
-
-
-A loaded die as shown in Figure~\ref{fig:die}. 
-This example is a showcase for a global optimization algorithm
-because a local change of material assignment will influence the global behavior.
-We used very high resolution grid for the surface to match texture
-of a die. The inner lay has only $3\times 3$ resolution.
-\begin{figure}
-	\centering
- 	\includegraphics[width=0.25\textwidth]{figure/die.png}
-\caption{A printed loaded die}
-\label{fig:die}
-\end{figure}
-It has a certain probability to land on "1".
-A table of probability distribution of landing on each side
-is shown in Table~\ref{tab:dice}.
-
-\begin{table}
-\centering
-  \begin{tabular}{ |c| p{0.7in} | p{0.7in} | }
-  \hline
-  face & simulated probability & measured probability\\
-  \hline
-  1 & 0.5 & 0.5\\
-  \hline
-  2 & 0.1 & 0.1\\
-  \hline
-  3 & 0.1 & 0.1\\
-  \hline
-  4 & 0.1 & 0.1\\
-  \hline
-  5 & 0.1 & 0.1\\
-  \hline
-  6 & 0.1 & 0.1\\
-
-  \hline
-  \end{tabular}
-  \caption{Simulated and measured dice probability}
-  \label{tab:dice}
-\end{table}
-
-A plot of simulated probability of landing on "1" after each iteration
-is shown in Figure~\ref{fig:dieErr}.
-
-\begin{figure}
-	\centering
- 	\includegraphics[width=0.3\textwidth]{figure/die.pdf}
-\caption{Probability of die landing on 1 after each iteration.}
-\label{fig:dieErr}
-\end{figure}
-
-Printer:objet, ours.
-
-More ideas:
-balancing bird with texture.
-%%\section{Possible Extension}
-%%UI to specify input deformation.
+%It has a certain probability to land on "1".
+%A table of probability distribution of landing on each side
+%is shown in Table~\ref{tab:dice}.
+%
+%\begin{table}
+%\centering
+%  \begin{tabular}{ |c| p{0.7in} | p{0.7in} | }
+%  \hline
+%  face & simulated probability & measured probability\\
+%  \hline
+%  1 & 0.5 & 0.5\\
+%  \hline
+%  2 & 0.1 & 0.1\\
+%  \hline
+%  3 & 0.1 & 0.1\\
+%  \hline
+%  4 & 0.1 & 0.1\\
+%  \hline
+%  5 & 0.1 & 0.1\\
+%  \hline
+%  6 & 0.1 & 0.1\\
+%
+%  \hline
+%  \end{tabular}
+%  \caption{Simulated and measured dice probability}
+%  \label{tab:dice}
+%\end{table}
+%
+%A plot of simulated probability of landing on "1" after each iteration
+%is shown in Figure~\ref{fig:dieErr}.
+%
+%\begin{figure}
+%	\centering
+% 	\includegraphics[width=0.3\textwidth]{figure/die.pdf}
+%\caption{Probability of die landing on 1 after each iteration.}
+%\label{fig:dieErr}
+%\end{figure}
+%
+%Printer:objet, ours.
+%
+%More ideas:
+%balancing bird with texture.
+%%%\section{Possible Extension}
+%%%UI to specify input deformation.
 \section{Limitations and Future Work}
 
 
