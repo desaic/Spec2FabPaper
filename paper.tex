@@ -81,15 +81,13 @@
 \maketitle
 
 \begin{abstract}
-Computational fabrication problems are often concerned with optimal material assignment.
-
-They attempt to compute a spatially varying material distribution that yields specified real-world behavior.
-
-In this paper we introduce Spec2Fab, a graph based framework that simplifies the design, development and implementation of these algorithms.
-
-We illustrate the utility of our framework by showing implemented fabrication algorithms as well as their manufactured results.
-
-
+Digital fabrication allows to virtually design objects and then translate them to the corresponding physical equivalents.
+With the increasing popularity of multi-material 3D printing, these objects can be composed from multiple materials that have different properties.
+A key computational problem is how to compute a spatially varying material distribution that yields specified real-world behavior of the object.
+During the last few years a number of instances of this problem have been examined that tackle different aspects of object behavior, e.g.,  appearance or elastic deformation.
+In this paper, we propose an abstraction mechanism that simplifies the design, development, and implementation of these processes.
+Our solution relies on two data structures: a graph-based reducer network that efficiently parameterizes the space of material assignments and a tuner network that describes the optimization process to achieve desired material assignment. A corresponding API provides a natural way of specifying user-defined translation processes and the desired object.  
+We illustrate the utility of our framework by showing implemented fabrication algorithms as well as the corresponding manufactured results.
 \end{abstract}
 
 \keywordlist
