@@ -26,12 +26,12 @@
 \usepackage[english]{babel}
 \usepackage{hyperref}
 \usepackage{multirow}
-%\title{A Graph-Based Reduction for Optimal Material Assignment} 
-\title{A reduced representation for computational fabrication}
+%\title{A Graph-Based Reduction for Optimal Material Assignment}
+\title{A Reduced Representation for Computational Fabrication}
 % A reduced representation for computational fabrication
 %\title{Spec2Fab: A Graph-Based Reduction for Computational Fabrication Algorithms}
-% High-fidelity Mapping From Specification to Fabrication 
-% A graph-based material assignment 
+% High-fidelity Mapping From Specification to Fabrication
+% A graph-based material assignment
 % reduction-simulation-optimization
 % Exploring the space of computational fabrication algorithms
 
@@ -81,7 +81,15 @@
 \maketitle
 
 \begin{abstract}
-Computational fabrication problems are often concerned with optimal material assignment. They attempt to compute a spatially varying material distribution that yields specified real-world behavior. In this paper we introduce Spec2Fab, a graph based framework that simplifies the design, development and implementation of these algorithms. We illustrate the utility of our framework by showing implemented fabrication algorithms as well as their manufactured results.
+Computational fabrication problems are often concerned with optimal material assignment.
+
+They attempt to compute a spatially varying material distribution that yields specified real-world behavior.
+
+In this paper we introduce Spec2Fab, a graph based framework that simplifies the design, development and implementation of these algorithms.
+
+We illustrate the utility of our framework by showing implemented fabrication algorithms as well as their manufactured results.
+
+
 \end{abstract}
 
 \keywordlist
@@ -91,48 +99,53 @@ Computational fabrication problems are often concerned with optimal material ass
 \copyrightspace
 
 %\note{Teaser should be all different results produced using spec2Fab, texture, subsurface scattering, caustics etc...}
-
-
 \section{Introduction}
-
-
+% state of the world
 % Desktop Manufacturing is taking off
 % Stress multi-material 3D printing
+Computational design and 3D printing have been gaining attention among the general public but also within the computer graphics community.
+Computational design methods allow a wider audience to create custom objects and parts.
+These created designs can be automatically fabricated using a number of different 3D printing technologies.
+The range of the printing materials constantly expands and it is now possible to create and fabricate heterogeneous objects that combine a number of different materials.
 
-% The need
+% transitioning to the need
+When designing multi-material objects to be fabricated, users have to directly provide a material for each point inside of the object volume.
+In practice, an object is described using a collection of meshes, where each mesh is assigned a desired printing material.
+This process can be in many cases non-intuitive and users need to have access to all printing materials to ensure that the physical object looks and behaves the way they want.
+Even more importantly, objects are designed for a specific 3D printer and a set of materials. There is currently no way to translate between different printer-specific designs.
+
+% the need
 % Users would like to specify high-level goals for the object rather the direct specification of materials
-% some examples: 
+% some examples:
+There is a need to for a computationally efficient and general process that translates virtual objects specified in device-independent manner in terms of their mechanical and appearance properties to output-device-specific computer programs that produce the best possible approximation of these digital objects.
+Specifying objects in terms of their physical properties, for example, albedo values, rather than specific materials is much more user-intuitive.  However, this is still one of the most important unsolved problems in digital direct manufacturing.
 
-% There is already of number of algorithms for specific solutions. 
+% Other approaches
+% There is already of number of algorithms for specific solutions.
 % But each of them is custom, they are difficult to extend and modify, combine
+Computer graphics researchers have started designing algorithms for specific instances of this process, for example, subsurface scattering~\cite{Hasan:2010,Dong:2010} or deformation properties~\cite{Bickel:2010}. However, each of these instances is custom and difficult to extend or modify. Combining different process instances, e.g., designing and fabricating an object that has both desired reflectance and deformation is currently not possible.
+
 % There is a general structure of these algorithms that has gone exploited: reduction, optimization, simulation
 % This suggests that you can build a system for integrating/combining, but also exploring modifying individual pieces
+We observe that all these process instances share a similar structure. They rely on the ability to accurately simulate the physical properties of an object given its geometry and material assignment. They use this simulation within the optimization framework to search the space of all possible material assignments in order to find the one that best reproduces the desired properties. Unfortunately, due to the combinatorial nature of the search space the naive optimization approach is not tractable. For example, when the printing volume has $N$ voxels and each of these voxels can be assigned to one of $M$ base materials, the search space has $N^M$ dimensions. To overcome this problem, the search space is reduced to a lower-dimensional space using a reduction model. The goal of the reduction step is to shrink the search space as much as possible without pruning out good solutions.
 
-% In our framework, we propose an optimization component that
-% searches through the space of all possible device outputs
-% obtained by the simulator to nd the one that best reproduces
-% the desired object. Unfortunately, this search space
-% is usually high-dimensional. For example, when the printing
-% volume has N voxels and each of these voxels can be
-% assigned to one of M base materials, the search space
-% has NM dimensions. To overcome this problem, we reduce
-% the search space to a lower-dimensional space using
-% a reduction model.
+The reduction-optimization structure suggests that it is possible to provide a more general abstraction mechanism for translating specifications to fabrication instructions.
+In this paper we take the first step in achieving this goal. In particular, we and focus on the solution for building algorithms that compute optimal material assignment. Our solution is built around two data structures. The reducer network is graph-based framework that allows us to parameterize the spaces of material assignments. The tuner network is a data structure for specifying the optimization process. Our solution also provides an API that for intuitively specifying the desired object, the simulation, and these two data structures. Our approach has a number of advantages: different components of the process can be easily replaced, components can be reused across different, different parameterizations of the material domain and optimization strategies can be easily explored. 
+
+We show that this framework supports a number of different computational design and fabrication scenarios. We demonstrate the results of these algorithms and we also demonstrate that different specifications can be combined.  
 
 
 % In this paper we propose a system (that exploits this structure) for building algorithms that compute optimal material assignment for computational fabrication
-% this build around two data-strictures: the reducer network (parameterizing the space of material assignments)  and the tuner network (the data structure for specifying the optimization). We also have an API. 
-
+% this build around two data-strictures: the reducer network (parameterizing the space of material assignments)  and the tuner network (the data structure for specifying the optimization). We also have an API.
 
 %Computational fabrication couples new digital manufacturing techniques with novel numerical algorithms to produce objects with remarkable physical characteristics. These methods are of great interest in computer graphics for two reasons: First, they provide us with  a new class of output devices which can render into real-life and second, they yield valuable insight into the accuracy of our numerical models of the world.
 
 %In this paper we focus on a fundamental problem in producing any such custom object:  optimal material assignment. Given an object one must find a spatially varying material distribution that satisfies some given criteria. The algorithms that solve these problems are often complicated to develop, implement, test and modify. We provide a new graph-based framework which decomposes such problems into a small set of constituent components alleviating the above issues as well as facilitating the development and testing of new methods.
 
-
 \section{Related Work}
 
 % Computational Fabrication
-% BRDFs: Weyrich, Matusik, 
+% BRDFs: Weyrich, Matusik,
 % Refractive: Papas, Architectural Caustics, Finsch
 % Subsurface Scattering: Dong, Hasan
 % Shadows: Pauly (Shadow Art), ShadowPix
