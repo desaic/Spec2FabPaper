@@ -81,13 +81,8 @@
 \maketitle
 
 \begin{abstract}
-Digital fabrication allows to virtually design objects and then translate them to the corresponding physical equivalents.
-With the increasing popularity of multi-material 3D printing, these objects can be composed from multiple materials that have different properties.
-A key computational problem is how to compute a spatially varying material distribution that yields specified real-world behavior of the object.
-During the last few years a number of instances of this problem have been examined that tackle different aspects of object behavior, e.g.,  appearance or elastic deformation.
-In this paper, we propose an abstraction mechanism that simplifies the design, development, and implementation of these processes.
-Our solution relies on two data structures: a graph-based reducer network that efficiently parameterizes the space of material assignments and a tuner network that describes the optimization process to achieve desired material assignment. A corresponding API provides a natural way of specifying user-defined translation processes and the desired object.  
-We illustrate the utility of our framework by showing implemented fabrication algorithms as well as the corresponding manufactured results.
+Digital fabrication allows us to virtually design objects and then translate them to their corresponding physical equivalents.
+With the increasing popularity of multi-material 3D printing, these objects can be composed from multiple materials that have different properties. Computing a spatially varying material distribution that yields specified real-world behavior of the object when manufactured, is a key problem. During the last few years a number of instances of this problem have been examined that tackle different aspects of object behavior, e.g.,  appearance or elastic deformation. In this paper, we propose an abstraction mechanism that simplifies the design, development, and implementation of these processes. Our solution relies on two data structures: a graph-based reducer network that efficiently parameterizes the space of material assignments and a tuner network that describes the optimization process to achieve desired material assignment. A corresponding API provides a natural way of specifying user-defined translation processes and the desired object. We illustrate the utility of our framework by showing implemented fabrication algorithms as well as the corresponding manufactured results.
 \end{abstract}
 
 \keywordlist
@@ -101,67 +96,52 @@ We illustrate the utility of our framework by showing implemented fabrication al
 % state of the world
 % Desktop Manufacturing is taking off
 % Stress multi-material 3D printing
-Computational design and 3D printing have been gaining attention among the general public but also within the computer graphics community.
-Computational design methods allow a wider audience to create custom objects and parts.
-These created designs can be automatically fabricated using a number of different 3D printing technologies.
-The range of the printing materials constantly expands and it is now possible to create and fabricate heterogeneous objects that combine a number of different materials.
+Computational design and 3D printing have been gaining attention among the general public but also within the computer graphics community. Computational design methods allow a wider audience to create custom objects and parts. These created designs can be automatically fabricated using a number of different 3D printing technologies. The range of the printing materials constantly expands and it is now possible to fabricate heterogeneous objects that combine a number of different materials.
 
 % transitioning to the need
-When designing multi-material objects to be fabricated, users have to directly provide a material for each point inside of the object volume.
-In practice, an object is described using a collection of meshes, where each mesh is assigned a desired printing material.
-This process can be in many cases non-intuitive and users need to have access to all printing materials to ensure that the physical object looks and behaves the way they want.
-Even more importantly, objects are designed for a specific 3D printer and a set of materials. There is currently no way to translate between different printer-specific designs.
+When designing fabricable multi-material objects, users have to directly specify materials for each point inside of the object volume. In practice, an object is described using a collection of meshes, where each mesh is assigned a desired printing material. This process can be, in many cases, non-intuitive requiring that users understand the properties of printing materials in order to obtain the desired results. Even more importantly, objects are designed for a specific 3D printer and a set of materials. There is currently no way to convert between different printer-specific designs.
 
 % the need
 % Users would like to specify high-level goals for the object rather the direct specification of materials
 % some examples:
-There is a need to for a computationally efficient and general process that translates virtual objects specified in device-independent manner in terms of their mechanical and appearance properties to output-device-specific computer programs that produce the best possible approximation of these digital objects.
-Specifying objects in terms of their physical properties, for example, albedo values, rather than specific materials is much more user-intuitive.  However, this is still one of the most important unsolved problems in digital direct manufacturing.
+% users need to specify things in a functional manner,
+% it is difficult to make new algorithms because they are monolithic, no code reuse,
+There is a need for a computationally efficient and general process that translates virtual objects specified in device-independent manner in terms of their mechanical and appearance properties to output-device-specific computer programs that produce the best possible approximation of these digital objects. Specifying objects in terms of their physical properties, for example, albedo values, rather than specific materials is much more user-intuitive.
+% Developers needs
+However, this is still one of the most important unsolved problems in digital manufacturing.
 
 % Other approaches
 % There is already of number of algorithms for specific solutions.
 % But each of them is custom, they are difficult to extend and modify, combine
-Computer graphics researchers have started designing algorithms for specific instances of this process, for example, subsurface scattering~\cite{Hasan:2010,Dong:2010} or deformation properties~\cite{Bickel:2010}. However, each of these instances is custom and difficult to extend or modify. Combining different process instances, e.g., designing and fabricating an object that has both desired reflectance and deformation is currently not possible.
+Computer graphics researchers have started designing algorithms for specific instances of this process, for example, subsurface scattering~\cite{Hasan:2010:PRO,Dong:2010:FSS} or deformation properties~\cite{Bickel:2010:DAF}. However, each of these instances is custom and difficult to extend or modify. Combining different process instances, e.g., designing and fabricating an object that has both desired reflectance and deformation is currently not possible.
 
 % There is a general structure of these algorithms that has gone exploited: reduction, optimization, simulation
 % This suggests that you can build a system for integrating/combining, but also exploring modifying individual pieces
 We observe that all these process instances share a similar structure. They rely on the ability to accurately simulate the physical properties of an object given its geometry and material assignment. They use this simulation within the optimization framework to search the space of all possible material assignments in order to find the one that best reproduces the desired properties. Unfortunately, due to the combinatorial nature of the search space the naive optimization approach is not tractable. For example, when the printing volume has $N$ voxels and each of these voxels can be assigned to one of $M$ base materials, the search space has $N^M$ dimensions. To overcome this problem, the search space is reduced to a lower-dimensional space using a reduction model. The goal of the reduction step is to shrink the search space as much as possible without pruning out good solutions.
 
-The reduction-optimization structure suggests that it is possible to provide a more general abstraction mechanism for translating specifications to fabrication instructions.
-In this paper we take the first step in achieving this goal. In particular, we and focus on the solution for building algorithms that compute optimal material assignment. Our solution is built around two data structures. The reducer network is graph-based framework that allows us to parameterize the spaces of material assignments. The tuner network is a data structure for specifying the optimization process. Our solution also provides an API that for intuitively specifying the desired object, the simulation, and these two data structures. Our approach has a number of advantages: different components of the process can be easily replaced, components can be reused across different, different parameterizations of the material domain and optimization strategies can be easily explored. 
-
-We show that this framework supports a number of different computational design and fabrication scenarios. We demonstrate the results of these algorithms and we also demonstrate that different specifications can be combined.  
-
-
-% In this paper we propose a system (that exploits this structure) for building algorithms that compute optimal material assignment for computational fabrication
-% this build around two data-strictures: the reducer network (parameterizing the space of material assignments)  and the tuner network (the data structure for specifying the optimization). We also have an API.
-
-%Computational fabrication couples new digital manufacturing techniques with novel numerical algorithms to produce objects with remarkable physical characteristics. These methods are of great interest in computer graphics for two reasons: First, they provide us with  a new class of output devices which can render into real-life and second, they yield valuable insight into the accuracy of our numerical models of the world.
-
-%In this paper we focus on a fundamental problem in producing any such custom object:  optimal material assignment. Given an object one must find a spatially varying material distribution that satisfies some given criteria. The algorithms that solve these problems are often complicated to develop, implement, test and modify. We provide a new graph-based framework which decomposes such problems into a small set of constituent components alleviating the above issues as well as facilitating the development and testing of new methods.
+The reduction-optimization structure suggests that it is possible to provide a more general abstraction mechanism for translating specifications to fabrication instructions. In this paper we take the first step in achieving this goal. In particular, we focus on the solution for building algorithms that compute optimal material assignment. Our solution entails two data structures. The \emph{reducer network} is a graph-based data structure that allows us to parameterize the space of material assignments. The \emph{tuner network} is a data structure for specifying the optimization process. Our solution also provides an easy to use API for specifying the desired object, setting up the simulation, and defining parameters for the reducer and tuner network. In general, our framework simplifies the construction of new computational fabrication algorithms. More specifically, different components of the process can be easily replaced, components can be reused across different processes, different parameterizations of the material domain and optimization strategies can be easily explored. In order to show these advantages, we illustrate how existing computational design processes fit in this framework and how they can be combined.  We demonstrate the results of these algorithms on a variety of different examples.
 
 \section{Related Work}
-
-% Computational Fabrication
-% BRDFs: Weyrich, Matusik,
-% Refractive: Papas, Architectural Caustics, Finsch
-% Subsurface Scattering: Dong, Hasan
-% Shadows: Pauly (Shadow Art), ShadowPix
-% Deformation: Face Cloning, Balloons, Bickel
-% Albedo/Shading: Reliefs
 % Geometry compression: Digital Bas-Relief from 3D Scenes
 
 % Shade trees:
 % abstract shade trees
 % Yam, Siggraph Asia 2011
 
-Here we will review previous algorithms for solving the optimal material assignment problem . We divide this review into two broad categories, optimizing for desired optical properties and optimizing for desired mechanical properties. We conclude by commenting on the similarities between these approaches.
+Many instances of the computational design pipeline have been proposed recently. They span a wide range of functional properties (e.g., mechanical, optical, appearance). These properties drive the simulation, optimization, and reductions. In the area of computational design of objects with desired mechanical properties, Bickel and colleagues~\shortcite{Bickel:2010:DAF} have designed a system for manufacturing multi-layer composites with a given elastic behavior. Skouras et al.~\shortcite{sko:2012} provide design and construction of balloons with a prescribed shape while inflated. Furthermore, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
 
-Optimizing and manufacturing objects with desired optical characteristics is a popular problem in computer graphics. Building objects which embed images in their caustics has been explored by Finch \textit{et al.} ~\shortcite{Finckh:2010} and Papas \textit{et al.}\shortcite{Marios:2011}. Optimization based approaches have also been employed to control the subsurface scattering of printed 3D models ~\cite{Hasan:2010}. These methods have also been extended to optically decrypt hidden images ~\cite{Papas:2012}. Finally, optimal shadow casting surfaces have been produced which emulate a given set of input images ~\cite{Bermano:2012}.
+Optimizing and manufacturing objects with desired appearance and optical characteristics have been also explored. Weyrich et al.~\shortcite{Weyrich:2009:FMF} compute surface micro-geometry that yields a desired BRDF. Similar approaches have been proposed~\cite{Finckh:2010,Marios:2011} to produce refractive surfaces that form desired caustics. These methods have been extended to optically decrypt hidden images~\cite{Papas:2012}. Complementary work examines fabricating surfaces with spatially varying reflectance~\cite{Matusik:2009:PSR,Malzbender:2012:PRF} and diffuse shading \cite{Alexa:2010:RAI}. Another set of approaches uses optimization to compute shadow casting surfaces and volumes~\cite{Mitra:2009:SA,Bermano:2012,Baran:2012:MLA} to reproduce a given set of input images. Finally, optimization-based approaches have also been employed to control the subsurface scattering of 3D printed multi-layered models~\cite{Dong:2010:FSS,Hasan:2010:PRO}.
 
-Fabricating objects with desired mechanical characteristics has been explored less in the literature. Some recent examples include simulating and manufacturing layered composites ~\cite{Bickel:2010} as well as the design and construction of balloons with a prescribed shape while inflated ~\cite{sko:2012}. Finally, material optimization has been employed to create mechanical clones of human faces ~\cite{Bickel:2012}.
+Our reducer network is inspired by Cook's shade trees~\cite{Cook1984} data structure and their modern implementation in current rendering systems (e.g., Maya, RenderMan, etc.). Using these approaches, complex shading effect can be achieved by combining a set of basic shading blocks. Our reducer network also uses a tree data structure that combines a set of primitives to compute a material assignment for each point inside of the object volume.
 
-\autoref{tb:algorithms} shows the coordinate reduction methods as well as the optimization schemes used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but a set of common reduced coordinate components. These, in conjunction with (often off-the-shelf) optimization techniques form new material assignment algorithms. This suggests that one could find a small set of components that can be tied together to synthesize existing and new methods. Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems.
+Our tuner network is inspired by probabilistic graphical models~\cite{Jordan:1999} that have been popular for representing variable dependence in multi-variable optimization problems. These problems can be parallelized~\cite{GraphLab} according to the graph structure representing variable dependencies. 
+
+%The user can define a graph s
+%Similar approaches have already proven useful for creating complex texture shading examples ~\cite{Cook1984}. Our goal in this paper is to produce an analogous mechanism for material assignment problems.
+
+%\autoref{tb:algorithms} shows the coordinate reduction methods as well as the optimization schemes used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but a set of common reduced coordinate components. These, in conjunction with (often off-the-shelf) optimization techniques form new material assignment algorithms. This suggests that one could find a small set of components that can be tied together to synthesize existing and new methods.
+
+
 \begin{table*}[htp]
 \centering
 \caption{The goal type, reduction type and optimization used by previous fabrication works.}
@@ -169,9 +149,9 @@ Fabricating objects with desired mechanical characteristics has been explored le
 \hline
 \textbf{Paper} & \textbf{Goal} & \textbf{Reduced Coordinates}  & \textbf{Optimization} \\
 \hline
-~\cite{Bickel:2010}& Deformation & Layered Materials  & Branch and Bound \\
+~\cite{Bickel:2010:DAF}& Deformation & Layered Materials  & Branch and Bound \\
 ~\cite{Finckh:2010} & Optical (Caustics) & B-Spline Surface & SPSA \\
-~\cite{Hasan:2010}& Optical (Subsurface) & Layered Materials & Branch and Bound\\
+~\cite{Hasan:2010:PRO}& Optical (Subsurface) & Layered Materials & Branch and Bound\\
 ~\cite{Marios:2011} & Optical (Caustics) & Piecewise Constant Tiles & Simulated Annealing \\
 ~\cite{Bermano:2012} & Optical (Shadows) & Height Field & Custom/Simulated Annealing \\
 ~\cite{Bickel:2012} & Deformation &  Height Field &  Newton-Raphson \\
@@ -215,6 +195,7 @@ The overall contribution of our work is a flexible framework for the constructio
 % 3. API
 \section{Methods}
 Below we will describe the key components of our framework and its associated API. We begin by describing the data structures that tie our framework together, the Reducer Network and the Tuner Network. We will then show how these two components interact to provide a compact graphical description of the material assignment problem. Finally, we will detail the basis set of components that we use to produce a wide-range of fabrication algorithms.
+
 \subsection{The Reducer Network}
 Computing material assignments at output device resolution is computationally inefficient. Because of this, material assignments are computed  using a reduced representation. We specify this representation using a Reducer Network.  This structure is conceptually similar to those used in programmable shading systems (e.g. ~\cite{Cook1984}, Maya Shader Networks) . However these systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking a volumetric assignment of (as yet) unknown materials. In order to accomplish this task we build a directed, acyclic graph which has the object's surface geometry as its root node. We define two classes of nodes, geometry nodes and parameterization nodes. A geometry node takes a volumetric region as input and produces a partition of unity of this region as output. The leaf nodes of our graph are the parameterization nodes which associate a material assignment function of the form $\lambda\left(x,y,z, \boldsymbol{\theta}\right)$ to an input volumetric region.
 $\lambda$ can either output material parameters or a discrete material assignment for a spatial point $\left(x,y,z\right)$ given some parameters, here denoted by $ \boldsymbol{\theta}$. We allow our material assignment nodes to assign a void material to regions of the mesh. This allows us to treat surface displacements and material assignments in a unified fashion. Because the network describes a nested set of partitions of unity we can efficiently perform material queries by passing a query point through the network until it arrives at a parameterization node. We note that Reducer Networks do not inherently enforce material continuity between disjoint regions of the object, however, for material assignment problems this is neither required nor desired.
@@ -513,6 +494,8 @@ for(ii=0;ii<column->resolution;ii++){
 
 %\note{I think we should just go with the results we have, texture etc... show the reducer network, tuner network, simulated results and manufactured result (if you have them}
 \section{Results and Discussion}
+\autoref{tb:algorithms} shows the coordinate reduction methods as well as the optimization schemes used in all cited works. A motivating observation for this research is that, despite different applications, these previous works share, not only a common methodology, but a set of common reduced coordinate components. These, in conjunction with (often off-the-shelf) optimization techniques form new material assignment algorithms. This suggests that one could find a small set of components that can be tied together to synthesize existing and new methods.
+
 Table~\ref{tab:built-in} shows a list of nodes implemented in our framework. With this set of nodes we can reproduce all work previously discussed. This validates our assertion, that the space of fabrication  algorithms can be spanned effectively using the Reducer and Tuner networks. Secondly it illustrates how we can leverage component reuse to quickly create such algorithms.\autoref{tab:example} lists the components of the framework used to recreate each example.
 
 For each example, we show the target, the simulated output, and the fabricated result in Figure~\ref{tab:result}.
@@ -584,7 +567,7 @@ Caustics &  \includegraphics[width=3cm]{figure/causticsTarget.png}& \includegrap
 Here we design an algorithm to print textured models using a two material printer. We expand the set of printable colors by stacking translucent materials using the LayeredMaterial node. We then applied dithering using this expanded gamut.
 The first two rows in \autoref{tab:result} shows the results of this method.
 \subsection{Subsurface Scattering}
-We replicated \cite{Hasan:2010} using our framework.
+We replicated \cite{Hasan:2010:PRO} using our framework.
 
 \subsection{Refractive Caustics}
 We have also implemented two algorithms for computing goal-based caustics;  ~\cite{Marios:2011} and ~\cite{Finckh:2010}.
@@ -609,7 +592,7 @@ We also replace the specialized renderer from the original publication with a ge
 \end{figure}
 
 \subsection{Subsurface Scattering and Deformation}
-We first replicated \cite{Bickel:2010} to print materials with specified elasticity. We then combined it with subsurface scattering
+We first replicated \cite{Bickel:2010:DAF} to print materials with specified elasticity. We then combined it with subsurface scattering
 matching to print material that approximates both the subsurface scattering property and the deformation behavior. The result is shown in Figure~\ref{fig:deform}. In our case we perform coupling at the tuner level by alternating tuner execution for the two
 separate problems. Here we see that our framework facilitates the creation of new fabrication problems by allowing easy reuse of previous work and also providing a ``playground'' in which one can explore different computational approaches. \autoref{fig:err} contains two error plots showing that the subsurface scattering and deformation errors decrease after each tuner iteration.
 
