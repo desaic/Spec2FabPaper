@@ -17,7 +17,8 @@ To demonstrate the flexibility of the \emph{reducer tree}, we define a small yet
 \item Stratum Node -- takes a single positive distance parameter as an input and partitions the volume into two regions divided by the iso-distance surface.\vspace{-0.25\baselineskip}
 \end{itemize} 
 
-\begin{figure}
+\begin{figure}[h]
+\centering
 \includegraphics[width=0.7\linewidth]{figure/geometryNodes}
 \caption{2D representations  of the \emph{geometry nodes} used in our \emph{reducer tree}.}
 \label{fig:geometryNodes}
@@ -33,6 +34,7 @@ Since the tree describes a nested set of partitions, we can efficiently perform 
 We note that the \emph{reducer tree} does not inherently enforce material continuity between disjoint regions of the object; however, for material assignment problems, this is neither required nor desired. 
 
 \begin{figure}[h]
+\centering
 \includegraphics[width=0.7\linewidth]{figure/redNetworkNew.pdf}
 \caption{Two examples of our \emph{reducer tree}. Left: in order to create an object producing a caustic, the input shape is first divided into columns. Next, each column is sliced by a plane.
 By assigning materials to lower parts of the columns, the microfacet surface is created.
@@ -50,7 +52,8 @@ In order to create an optimal material assignment, \emph{tuner nodes} must be at
 
 \autoref{fig:combine} (left) shows a simple example in which two \emph{tuners} are attached to sibling nodes in a \emph{reducer tree}. The first \emph{tuner} is responsible for \emph{layered} and \emph{void material nodes }while the second is responsible for several \emph{layered material nodes}.  
 
-\begin{figure}
+\begin{figure}[h]
+\centering
 \includegraphics[width=0.7\linewidth]{figure/tuner2.pdf}
 \caption{A diagram of the \emph{tuner} workflow. Arrows indicate flow and type of information passed between the individual \emph{tuner} components.}
 \label{fig:tuner0}
