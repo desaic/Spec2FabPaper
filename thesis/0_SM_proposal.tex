@@ -1,0 +1,189 @@
+
+%%
+%% MIT Thesis - Main Document
+%%
+
+\documentclass[twoside,11pt]{book}
+
+\usepackage{thesis}
+\usepackage[final]{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{floatpag}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{epsfig}
+\usepackage{cite}
+%\usepackage{psfrag}
+%\usepackage{makeidx}
+
+%\usepackage[sort]{cite}
+%\usepackage{citesort}
+\usepackage[numbers,sort&compress,comma]{natbib}
+
+\usepackage[draft=false,letterpaper,breaklinks,colorlinks,linktocpage,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
+
+% include parts of document
+%\includeonly{titlepage,abstract,ack}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREAMBLE: Formatting and macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{}
+\typeout{*****************************************************************************}
+\typeout{Remember to do the following for LaTeX-ing of final document:}
+\typeout{ * spell check .tex and .bib files}
+\typeout{ * run BibTex and Index}
+\typeout{ * check overfull hboxes}
+\typeout{ * check table of contents and, if necessary, ...}
+\typeout{ * increment toc page entry of Bibliography and Index}
+\typeout{ * comment out the addcontentsline for Bibliography and Index}
+\typeout{*****************************************************************************}
+\typeout{}
+
+% use footer to denote draft
+%\cfoot{\scshape Draft: \today}
+
+% no headers on full-page floats
+\floatpagestyle{empty}
+
+% typesets first word in each chapter
+\newcommand{\biglet}[2]{\begingroup\def\par{
+    \endgraf\endgroup\lineskiplimit=0pt}
+  \setbox2=\hbox{\uppercase{\sffamily #2}
+    }\newdimen\tmpht \tmpht \ht2 \advance\tmpht by
+  \baselineskip\font\hhuge=cmssbx10 at \tmpht \setbox1=\hbox{{\hhuge #1}}
+  \count7=\tmpht \count8=\ht1\divide\count8 by 1000 \divide\count7
+  by\count8 \tmpht=.001\tmpht\multiply\tmpht by \count7\font\hhuge=cmssbx10
+  at \tmpht \setbox1=\hbox{{\hhuge #1}}
+  \noindent \hangindent1.05\wd1
+    \hangafter=-2 {\hskip-\hangindent \lower1\ht1\hbox{\raise1.0\ht2\copy1}%
+    \kern-0\wd1}\copy2\lineskiplimit=-1000pt}
+
+% define theorem environments
+\newtheorem{example}{Example}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{crit}{Criterion}[section]
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% create new float type for algorithm displays
+\floatstyle{boxed}
+\newfloat{algorithm}{tbh}{loa}
+\floatname{algorithm}{Algorithm}
+\newcommand{\algtop}{
+  \vspace*{-6pt}
+  \setlength{\belowdisplayskip}{2pt plus 2pt}
+  \setlength{\abovedisplayskip}{2pt plus 2pt}
+  \setlength{\itemsep}{4pt}
+}
+\newcommand{\algend}{
+  \vspace*{-2pt}
+}
+
+\setlength{\leftmargini}{24pt} \setlength{\leftmarginii}{18pt}
+
+% colors used in some figures
+\definecolor{Black}{rgb}{0,0,0}
+\definecolor{Blue}{rgb}{0,0,1.0}
+\definecolor{Green}{rgb}{0,1.0,0}
+\definecolor{Red}{rgb}{1.0,0,0}
+
+\def\shortcite{\cite}
+% macros for creating figures
+\newcommand{\graphicW}[2]{\includegraphics[width=#1]{#2}}
+\newcommand{\graphicH}[2]{\includegraphics[height=#1]{#2}}
+
+% locations of other source files and images
+\newcommand{\bibdir}{Bibliographies}
+\newcommand{\figdir}{figures}
+
+%\makeindex
+
+\begin{document}
+\raggedbottom
+
+%%%%%%%%%%%%%%%
+%% Front Matter
+%%%%%%%%%%%%%%%
+
+\include{titlepage}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Abstract}
+\include{abstract}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgments}
+\include{ack}
+
+\lhead[\fancyplain{}{\bf\thepage}]{\fancyplain{}{\sfeight\rightmark}}
+\rhead[\fancyplain{}{\sfeight\leftmark}]{\fancyplain{}{\bf\thepage}}
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\cleardoublepage
+
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+\cleardoublepage
+
+%\phantomsection
+%\addcontentsline{toc}{chapter}{List of Algorithms}
+%\listof{algorithm}{List of Algorithms}
+%\cleardoublepage
+
+%\phantomsection
+%\addcontentsline{toc}{chapter}{List of Tables}
+%\listoftables
+%\cleardoublepage
+
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Notational Conventions}
+%\include{defn}
+%\cleardoublepage
+
+\lhead[\fancyplain{}{\bf\thepage}]{\fancyplain{}{\sfeight\rightmark}}
+\rhead[\fancyplain{}{\sfeight\leftmark}]{\fancyplain{}{\bf\thepage}}
+%%%%%%%%%%%%%%%%
+%% Document Body
+%%%%%%%%%%%%%%%%
+
+% \renewcommand{\thepage}{\arabic{page}}
+% \setcounter{page}{1}
+\include{chap1}
+\include{RelatedWork} % chap2.tex should be in the same directory in this case
+\include{Overview}
+\include{DataStructures}
+
+%%%%%%%%%%%%%%
+%% Back Matter
+%%%%%%%%%%%%%%
+
+% appendixes
+\appendix
+%\include{appendix1} % appendix1.tex should be in the same directory in this case
+%\include{appendix2} % appendix2.tex should be in the same directory in this case
+
+% bibliography
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+%\bibliographystyle{plain}
+\bibliographystyle{plainnat}
+\bibliography{paper} % use with BibTeX (bibliography.bib should be in the same directory in this case)
+
+% index (uncomment the lines below if you want an index)
+%\newpage
+%\mbox{}
+%\newpage
+%\addcontentsline{toc}{chapter}{Index}
+%\printindex
+
+\end{document}

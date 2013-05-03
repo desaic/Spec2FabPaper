@@ -1,0 +1,23 @@
+\chapter{Design Goals}
+\label{chap:design}
+The design of our general translational framework is guided by the following principles:
+
+\begin{itemize}
+
+\item \textbf{Modularity:} Spec2Fab translators are complicated both algorithmically and from a software engineering point of view. To combat this, any proposed framework must break the problem into a manageable number of small, reusable building blocks. 
+
+\item \textbf{Extensibility:} Developers must be able to add their own building blocks to the system. This allows the system to grow in conjunction with the capabilities of newer 3D printers.
+\vspace{-0.25\baselineskip}
+
+\item \textbf{Device Independence:} Spec2Fab translators should be device independent. They should be easily adaptable to different types of 3D printers.
+\item \textbf{Input Geometry Independence:} Spec2Fab translators should be geometry independent. For example, a process for applying a texture to a 3D printed object should work for \textbf{any} object.
+\vspace{-0.25\baselineskip}
+\end{itemize}
+
+We aim to separate the Spec2Fab process into two phases, the process configuration phase and the process use phase. The process configuration phase is typically done once by a skilled developer who  constructs a Spec2Fab translator. The process use phase is typically performed multiple times by an end-user who is only required to provide an object specification (e.g., object geometry and deformation properties) and a target device. 
+
+	The process configuration phase produces a Spec2Fab translator which will assign a desired volumetric material distribution to a user supplied input geometry given a user specified goal. We describe this phase using two new data structures, the \emph{reducer tree} and \emph{tuner network}. The \emph{reducer tree} parameterizes a volumetric material assignment using a small set of \emph{geometry} and \emph{material nodes} while the \emph{tuner network} is used to describe an optimization process as a connected set of \emph{tuner} objects.  Both \emph{nodes} and \emph{tuners} can be easily recombined and reused thus making  our framework highly modular. Furthermore,  \emph{nodes} and \emph{tuners} define abstract interfaces and thus developers can easily add new types of each. This makes our framework extensible.
+	
+	\emph{Reducers} and \emph{tuners} are chosen to be independant of printer capabilities. Instead we account for printer type by altering the available materials that the translator may assign to the input geometry.  This is important since it grants the \emph{reducer-tuner} model  device independence. Finally, the \emph{geometry nodes} of the \emph{reducer tree} are designed to function irrespective of input shape. Since the Spec2Fab translators produced by our algorithm use a composition of these node types, they are geometry independent. 
+	
+	In the following sections I will describe the \emph{reducer tree} and the \emph{tuner network}, their constituent components and the mechanisms by which they interact. 
