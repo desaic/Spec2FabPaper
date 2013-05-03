@@ -1,0 +1,103 @@
+\chapter{Proposed Experiments}
+\label{chap:results}
+\begin{figure*}[t]
+\includegraphics[width=\linewidth]{figure/TexturedExamples.pdf}
+\caption {The reducer-tuner model should enable creating objects of arbitrary shapes with embedded textures.}
+\label{fig:texturedExamples}
+\end{figure*}
+\biglet{I}{n} order to evaluate capabilities of our system, I will implement a number of existing translation processes.
+Furthermore, the ease with which different algorithm components can be combined enabled creation of two new translation processes.
+The first is an algorithm that can produce objects with desired refractive properties and an associated texture.
+
+The second allows us to apply a desired texture to an object with prescribed deformation behavior.
+All of these processes, both from prior work and new ones, easily fit into our framework, and were manufactured using a Stratasys Object500 Connex  multi-material printer.
+The following paragraphs provide a detailed description of how the individual algorithms were designed with our system.
+All \emph{reducer trees} and the \emph{tuner networks} used for producing these results are presented in \autoref{fig:ReducerTreesAdditional}.
+
+\paragraph{Spatially-varying Albedo:}
+We have designed a Spec2Fab translator that allows for 3D printing of textured models (Figure~\ref{fig:texturedExamples}).
+Being able to apply precisely specified spatially-varying albedo values to printed models is a crucial capability.
+However, no standard processes have been designed for this task so far. The input to our algorithm is a shape and its desired albedo texture. Since the texture is only affected by materials close to the surface, we use a \emph{stratum node} to divide the input shape into a thin shell and an inner volume. We then divide the outer layer into columns. The set of printable colors is expanded by stacking translucent materials using the \verb|LayeredMaterial| Node.
+The number of layers is fixed to the number of print materials. The reduced parameters are the thickness values of each material layer. For each column, the \emph{tuner}'s optimizer looks up the proper stacking that produces the closest albedo value. Due to printer resolution, the range of albedo values that can be achieved is quantized. We therefore implement an error diffusion algorithm by connecting neighboring \emph{tuners}. In this simple algorithm, the simulation is a table lookup -- we measure the albedo value corresponding to different base materials.
+
+
+\paragraph{Heterogeneous Subsurface Scattering:}
+We have replicated the subsurface scattering process of Ha\v{s}an et al.~\shortcite{Hasan:2010:PRO} using our framework (Figure~\ref{fig:sub}).
+The input to our algorithm is a 3D mesh along with subsurface-scattering profiles defined at a set of surface points. We use the same \emph{reducer tree} as in the texture example thereby simplifying the process configuration phase.
+The only difference is that we allow each column to have four layers of varying thickness and material. We use a branch and bound optimization algorithm which has been modified to handle continuous parameters by allowing discrete increments. We implement a bound estimate callback function specific to this problem.
+Each column is optimized independently using the algorithm. The simulation computes a scattering profile for given a stacking and the error metric compares the simulated and goal profiles using squared error.
+%We note that the ability to reuse Reducer Nodes simplifies the configuration of new processes.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\linewidth]{figure/fig_chess.pdf}
+\caption{
+	A marble chessboard with prescribed subsurface scattering properties.
+	The insets show the samples under thin line illumination, and the graph shows the convergence of tuners for 10 out of 100 scattering profiles used in the example. The error is measured by square distance between two profiles, each containing 400 coefficients.}
+\label{fig:sub}
+\end{figure}
+
+\paragraph{Goal-based Caustics:}
+We have configured two different processes for computing goal-based caustics (Figure~\ref{fig:caust2}). While they define exactly the same goal, they have very different \emph{reducer trees} and \emph{tuner networks}.
+The first process is based on the work of Papas et al.~\shortcite{Marios:2011}. It computes a set of micro-lenses which produce the desired caustic image. The image is pre-processed into a set of Gaussian distributions. Each distribution is matched with a microlens. The optimization applies simulated annealing to permute the location of these micro-lenses in order to construct a smooth surface. In the \emph{tuner network}, each \emph{tuner} is connected to its four neighbors. During the execution of an individual \emph{tuner}, the optimization algorithm makes a randomized decision about whether or not to swap its micro-lens with one of its neighbors based on smoothness of the surface. The \emph{tuners} are executed many times until a user-specified convergence criterion is met. In our examples, we use $45^2$ microlens and ran all the \emph{tuners} for $2000$ iterations. In the second process, based on the work of Finckh et al.~\shortcite{Finckh:2010}, we use a \emph{B-spline node} to represent a smooth caustic surface. This is in contrast to the potentially discontinuous surface in the method above. The reduced parameters are the height of each spline control point. We implement a simple caustics simulator for height fields. The simulated image is compared to the goal image using mean squared error. We used $60\times 60$ control points and render the simulated image at $240\times 240$ pixel resolution.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\linewidth]{figure/fig_caustic.pdf}
+\caption {3D printed lens arrays that each produce a caustic image of Einstein.
+Below we show convergence plots for both the microfacet and smooth surface optimizations.
+The portrait is available from the United States Library of Congress's Prints and Photographs division,
+now in the public domain.
+}
+\label{fig:caust2}
+\end{figure}
+%\vspace{-\baselineskip}
+
+\paragraph{Elastic Behavior:}
+In the spirit of Bickel et al.~\shortcite{Bickel:2009} we have implemented an algorithm to compute material distribution based on a desired force-displacement response. The input to this algorithm is a mesh, a simulation configuration, and a desired shape. Simulation configuration includes vertex constraints and forces applied to the mesh. For this example, we use a co-rotational finite element method (FEM) simulation with linearly elastic materials to estimate the objects deformation. For the \emph{reducer tree}, we use a voxel partition to divide the object into a low-resolution grid. We assign a single material to each grid cell. The FEM simulator queries the \emph{reducer tree} for material assignments at arbitrary spatial locations. We use the same branch and bound algorithm as in our subsurface-scattering process but with a different bound computation callback function. We use the mean squared distance between the simulated and the desired shapes as the error metric. We have designed a simple experiment to validate our process in which we set the goal of our optimization to be a given deformed state (\autoref{fig:book}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\linewidth]{figure/fig_sub.pdf}
+\caption {A 3D printed book with prescribed deformation behavior under load.
+The plot shows the error (in meters) as a function of iteration number of our branch and bound based \emph{tuner}.
+The blue line shows the smallest error seen so far while the red line the \emph{tuner}'s progress exploring material subtrees~\protect\cite{Bickel:2009}.}
+\label{fig:book}
+\end{figure}
+
+\paragraph{Combining Caustics and Spatially-varying Albedo:}
+The first of our new combined translation processes incorporates both smooth caustics and texture mapping. More specifically, we compute a transparent slab with a texture image that, when illuminated, casts a prescribed caustic image. The input slab is split into two pieces using a \emph{plane node} as shown in Figure~\ref{fig:ReducerTreesAdditional}.
+The top piece is tuned to produce an input image. The material in the top piece is then fixed. The bottom piece is then tuned to produce a caustics image.
+
+
+\paragraph{Combining Deformable Object and Spatially-varying Albedo:}
+Our second new process combines spatially-varying albedo and elastic deformation properties. This is a very useful combination since when modeling objects we would like to specify both their appearance and ``feel''. In this process, the input shape is divided into a thin shell and an inner volume. We optimize for the deformation behavior and the texture independently due to the limitations of our current FEM simulator. As the outer shell is very thin, it has negligible influence on overall object deformation.
+
+\begin{figure*}[t]
+\centering
+\includegraphics*[clip, width = \linewidth]{figure/ReducerNetworksSuplemental}
+\caption{The figure shows all \emph{reducer trees} used in this paper.
+\textbf{Smooth caustics:} The smooth caustics tree consists of a spline surface that divides the geometry into an inner surface filled with a transparent material and an outer, void surface. This allows us to approximate displacement mapping.  Here, a single \emph{tuner} is used deform the spline surface.
+\textbf{Smooth caustics/texture:} The smooth caustics/texture \emph{reducer tree} splits the object into upper and lower sections using a plane. The upper section then uses the Smooth caustics \emph{reducer tree} to define surface displacements while the lower section uses a set of columns as texture pixels. Here, a single \emph{tuner} solves for the caustic image and a set of \emph{tuners} with regular connectivity solves for the textured image.  \textbf{Deformation/texture:} The object is divided into an outer layer and inner volume using a stratum node. The interior volume is then voxelized and each voxel is assigned a layered material. As in the previous example, the outer layer is divided into columns which are used as pixels for the texture image. The \emph{tuner} setup is also similar to the previous example except the single \emph{tuner} is used to optimize the mechanical behavior of the object. \textbf{Facet caustics:} Here, we build facets by dividing an object into columns and then bisecting the columns horizontally with a plane. The orientation of this plane defines the angle of the facet surface. We use a separate \emph{tuner} to optimize each plane orientation.
+\textbf{Subsurface scattering/texture:} The subsurface scattering/texture \emph{reducer tree} partitions the object into an inner volume and outer layer using a \emph{stratum node}. The inner volume is unimportant in this example so we place a constant material there. The outer material is divided into pixels using the \emph{column node}. These columns are filled with layered materials. We optimize each column separately using an associated \emph{tuner}. }
+\label{fig:ReducerTreesAdditional}
+\end{figure*}
+
+
+\chapter{Discussion}
+\biglet{T}{hrough} our series of experiments, the \emph{reducer tree} and \emph{tuner network} have allowed us to reuse a large number of software components.
+In the extreme case, we arrive at our subsurface scattering algorithm by trivially adapting the same \emph{reducer tree} for texture mapping objects.
+The power of component reuse is further elucidated by the presence of \emph{column nodes} in most examples and by our ability to reuse optimization schemes (such as branch and bound) in multiple algorithms.
+The \emph{reducer tree} and \emph{tuner network} make these similarities easy to observe and exploit.
+The only component whose reusability was not demonstrated in this paper is simulation.
+In this work, we have aimed to fabricate objects with a wide range of physical properties and this necessitates the use of a wide range of simulation algorithms. Finally, once a whole process is configured, it is independent of input geometry and goal parameters. For example, we have run the spatially-varying albedo process with different geometries and input textures
+
+The \emph{reducer-tuner model} is ideally suited for multi-material printing capable of producing objects with a wide range of different properties.
+In order to showcase these strengths, we have fabricated our examples for an Objet500 Connex -- a phase change inkjet printer that uses photopolymers with a wide range of optical and mechanical properties. Even though only two materials can be used and mixed within a single object, our framework has been proven to be very useful. 
+As the number of materials that can be printed simultaneously will grow, we expect the methodology presented here to increase in utility.
+For other types of 3D printing technologies, Spec2Fab framework has a reduced use. In the case of 3D printing using a single, rigid material (e.g., fused filament fabrication or Stereolithography) the framework can be used to tune geometry of objects. For plaster-based 3D printers that produce full-color 3D prints, Spec2Fab framework can be employed to compute proper texturing of objects.
+
+
+
+

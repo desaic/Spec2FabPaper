@@ -1,6 +1,6 @@
 \chapter{Data Structures}
 \label{chap:struct}
-In this section, I describe the structure of the \emph{reducer tree} as well as all types of \emph{reducer nodes} implemented in our framework. We also show the structure of individual \emph{tuners} and how they can be arranged into the \emph{tuner network}.
+\biglet{I}{n} this section, I describe the structure of the \emph{reducer tree} as well as all types of \emph{reducer nodes} implemented in our framework. We also show the structure of individual \emph{tuners} and how they can be arranged into the \emph{tuner network}.
 
 \section{The Reducer Tree}
  Estimating material assignments at output device resolution is computationally intractable. Therefore, material assignment has to be computed using a reduced representation. We specify this representation using a \emph{reducer tree}. This structure is conceptually similar to those used in programmable shading systems (such as Cook's shade trees~\shortcite{Cook1984} or Maya Shader Networks). These systems are primarily concerned with assigning known materials and textures to an object's surface whereas we are seeking an optimal volumetric assignment from a defined set of materials. In order to accomplish this task, we build a tree-based data structure which contains the entire object volume as its root node. We define two classes of \emph{reducer nodes}: \emph{geometry nodes} and \emph{material nodes}.
